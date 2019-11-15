@@ -9,26 +9,28 @@ export const INITIAL_STATE = {
 };
 
 export default (state = INITIAL_STATE, action) => {
+   console.log(action.type);
+
    switch (action.type) {
       case AUTH_START:
          return {
             ...state,
             isAuthorizing: true,
-            authError: NO_ERRORS
+            error: NO_ERRORS
          };
       case AUTH_SUCCESS:
          return {
             ...state,
-            authToken: action.payload,
+            token: action.payload,
             isAuthorizing: false,
-            authError: NO_ERRORS
+            error: NO_ERRORS
          };
       case AUTH_ERROR:
          return {
             ...state,
-            authToken: NO_TOKEN,
+            token: NO_TOKEN,
             isAuthorizing: false,
-            authError: action.payload
+            error: action.payload
          };
       default:
          return state;
