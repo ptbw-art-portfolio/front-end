@@ -7,6 +7,8 @@ import NavBar from './NavBar';
 import CreatePost from './CreatePost';
 import styled from 'styled-components';
 
+import Login from './Login';
+
 //action creators
 import {} from "../store/auth/useAuthActions";
 
