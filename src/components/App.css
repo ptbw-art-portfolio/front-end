@@ -1,0 +1,26 @@
+.banner {
+  display: flex;
+  align-items: center;
+  padding-left: 5%;
+  box-sizing: border-box;
+  border: 1px solid orange;
+  height: 6rem;
+  width: 100%;
+}
+
+h1 {
+  font-size: 3rem;
+}
+
+.artistSearchForm {
+  display: flex;
+  justify-content: flex-end;
+  box-sizing: border-box;
+  border: 1px solid green;
+}
+
+.artistSearchBox {
+  margin: 1rem;
+  border-radius: .75rem;
+  font-size: 1.5rem;
+}

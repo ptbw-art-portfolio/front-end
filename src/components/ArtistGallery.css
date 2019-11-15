@@ -1,0 +1,38 @@
+.ArtistGallery {
+  margin: auto;
+  display: grid;
+  grid-template-columns: 25% 25% 25% 25%;
+  grid-row-gap: .25rem;
+  box-sizing: border-box;
+  border: 1px solid blue;
+  border-radius: .5rem;
+  width: 90%;
+}
+
+.ArtistGalleryThumbnail {
+  margin: .5rem;
+  border: 1px solid indigo;
+  border-radius: .35rem;
+  position: relative;
+  text-align: center;
+  color: white;
+}
+
+.ArtistGalleryImage {
+  width: 100%;
+  border: 1px solid yellow;
+  border-radius: .35rem;
+}
+
+.ArtistGalleryImage:hover {
+  border: 1px solid red;
+}
+
+.attribution {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.65);
+  position: absolute;
+  top: 90%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
