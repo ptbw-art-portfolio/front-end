@@ -21,7 +21,7 @@ function ArtistGallery() {
           <Link to={`/artist/${artist.username}`} key={artist.username}>
             <div className="ArtistGalleryThumbnail">
               <img className="ArtistGalleryImage" src={require(`${artist.img}`)} title={`${artist.fullname}'s works`} alt={`${artist.fullname}'s works`}></img>
-              <div className="attribution">{artist.name}</div>
+              <div className="attribution">{artist.fullname}</div>
             </div>
             {/* <Route path={`/artist/${artist.username}`} component={} /> */}
           </Link>
