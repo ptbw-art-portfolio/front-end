@@ -9,6 +9,18 @@
   width: 90%;
 }
 
+@media only screen and (max-width: 768px) {
+  .ArtistGallery {
+    grid-template-columns: 33% 33% 33%;
+  }
+}
+
+@media only screen and (max-width: 576px) {
+  .ArtistGallery {
+    grid-template-columns: 50% 50%;
+  }
+}
+
 .ArtistGalleryThumbnail {
   margin: .5rem;
   border: 1px solid indigo;
