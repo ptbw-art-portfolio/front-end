@@ -1,15 +1,34 @@
-import React from 'react';
+import React, {useEffect} from 'react';
+import {connect} from "react-redux";
 import Colors from "./Colors";
 
 //action creators
-import {} from "../store/auth/useAuthActions";
+import { login } from "../store/auth/useAuthActions";
 
-function App() {
+function App({token}) {
+   useEffect(() => {
+      //check for a stored token
+      console.log(`Token: ${token}`);
+      login();
+   }, []);
+
    return (
       <div className="App">
          <h1>Welcome to the App</h1>
+
+         {token && <div>User logged in</div>}
       </div>
    );
 }
 
-export default App;
+const mapStateToProps = state => {
+   return {
+      token: state.auth.token
+   };
+};
+
+const mapDispatchToProps = {
+   login
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
