@@ -1,4 +1,4 @@
-const palette = ["#1a1423", "#3d314a", "#85756e", "#f2ecdd", "#ddd1c7"];
+const palette = ["#464655", "#94958b", "#b7b6c1", "#d5cfe1", "#eddfef"];
 const attentionColor = palette[2];
 const attentionBorder = palette[1];
 const subtleBorder = palette[4];
