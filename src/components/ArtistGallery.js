@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link, Route } from 'react-router-dom';
 import './ArtistGallery.css';
 // import styled from 'styled-components';
 
@@ -17,10 +18,13 @@ function ArtistGallery() {
     <section className="ArtistGallery">
       {artists.map(artist => {
         return (
-          <div className="ArtistGalleryThumbnail" key={artist.username}>
-            <img className="ArtistGalleryImage" src={require(`${artist.img}`)} title={`${artist.fullname}'s works`} alt={`${artist.fullname}'s works`}></img>
-            <div className="attribution">{artist.name}</div>
-          </div>
+          <Link to={`/artist/${artist.username}`} key={artist.username}>
+            <div className="ArtistGalleryThumbnail">
+              <img className="ArtistGalleryImage" src={require(`${artist.img}`)} title={`${artist.fullname}'s works`} alt={`${artist.fullname}'s works`}></img>
+              <div className="attribution">{artist.name}</div>
+            </div>
+            {/* <Route path={`/artist/${artist.username}`} component={} /> */}
+          </Link>
         )
       })}
     </section>
