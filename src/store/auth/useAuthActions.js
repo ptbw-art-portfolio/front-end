@@ -19,6 +19,7 @@ export function login (isSaveLogin) {
       //       dispatch({type: AUTH_ERROR, payload: error.response});
       //    })
       
-      dispatch({type: AUTH_SUCCESS, payload: "ThisIsAnAuthToken"});
+      // dispatch({type: AUTH_SUCCESS, payload: "ThisIsAnAuthToken"});
+      dispatch({type: AUTH_ERROR, payload: {error: "Fake Error"}});
    };
 };
