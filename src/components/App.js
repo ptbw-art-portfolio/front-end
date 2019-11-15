@@ -6,6 +6,8 @@ import ArtistGallery from "./ArtistGallery"
 import NavBar from './NavBar';
 import styled from 'styled-components';
 
+import Login from "./Login";
+
 //action creators
 import {} from "../store/auth/useAuthActions";
 
