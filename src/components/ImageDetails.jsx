@@ -42,13 +42,6 @@ const Wrapper = styled.div`
    }
 `;
 
-//Connect to Redux store
-const mapStateToProps = state => {
-   return {
-      userToken: state.auth.token
-   };
-};
-
 //render based on error status
 const renderDetails = (error, post) => {
    return (<article className="content">{
@@ -75,6 +68,13 @@ const renderDetails = (error, post) => {
    }</article>);
 };
 
+//Connect to Redux store
+const mapStateToProps = state => {
+   return {
+      userToken: state.auth.token
+   };
+};
+
 function ImageDetails({ userToken, match: { params: { id } } }) {
    const [error, setError] = useState();
    const [post, setPost] = useState({
@@ -92,35 +92,32 @@ function ImageDetails({ userToken, match: { params: { id } } }) {
 
    useEffect(() => {
       let newPost = {...post};
-      console.log(newPost);
       console.log(`Retrieveing Post: ${id}...`);
 
       axios(userToken)
          .get(`https://ptbw-art-portfolio.herokuapp.com/posts/${id}`)
-         .then(response => {
+         .then(api_resp => {
             return new Promise((resolve, reject) => {
-               if (!response.data.data) {
+               if (!api_resp.data.data) {
                   console.log("Failed to retrieve post!!");
-                  reject(response.data);
+                  reject(api_resp.data);
                } else {
                   console.log("Success!");
-                  resolve(response.data.data[0]);
+                  resolve(api_resp.data.data[0]);
                }
             });
          })
-         .then(api_post => {
+         .then(post_data => {
             newPost = {
                ...newPost,
-               ...api_post
+               ...post_data
             };
-            console.log(newPost);
             console.log("Retrieving Artist info...");
 
-            // return axios(userToken).get(`https://ptbw-art-portfolio.herokuapp.com/users/${api_post.user_id}`);
-            return axios(userToken).get(`https://ptbw-art-portfolio.herokuapp.com/users/4`);
+            return axios(userToken).get(`https://ptbw-art-portfolio.herokuapp.com/users/${post_data.user_id}`);
          })
-         .then(response => {
-            if (!response.data.data || response.data.data.length === 0) {
+         .then(api_resp => {
+            if (!api_resp.data.data || api_resp.data.data.length === 0) {
                console.log("Failed to retrieve artist!!");
                throw new Error("Artist not found");
             }
@@ -128,7 +125,7 @@ function ImageDetails({ userToken, match: { params: { id } } }) {
             console.log("Success!");
             newPost = {
                ...newPost,
-               artist: response.data.data[0].fullName
+               artist: api_resp.data.data[0].fullName
             };
             setPost(newPost);
          })
@@ -148,7 +145,7 @@ function ImageDetails({ userToken, match: { params: { id } } }) {
    return <Wrapper>{renderDetails(error, post)}</Wrapper>;
 }
 
-export default ImageDetails;
+export default connect(mapStateToProps)(ImageDetails);
 
 
 //GET /posts/:id

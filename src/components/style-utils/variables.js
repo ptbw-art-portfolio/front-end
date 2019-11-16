@@ -1,6 +1,6 @@
 //*** Constants ***/
-export const MAX_WIDTH = "1150px";
-export const MIN_WIDTH = "320px";
+export const MAX_WIDTH = "1040px";
+export const MIN_WIDTH = "400px";
 
 //*** Fonts ***//
 export const headerFont = `'Roboto Condensed', Sans-Serif`;
