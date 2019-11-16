@@ -1,14 +1,20 @@
 import React from "react"
 import styled from "styled-components";
+import { autoScale, customLayout } from "./style-utils/mixins";
 
 //Styled Components
 const Wrapper = styled.div`
    margin: 20px;
    background-color: magenta;
 
+   ${customLayout("center")}
+
    img {
-      width:100%;
-      max-width: 200px;
+      ${autoScale}
+
+      @media only screen and (min-width: 1600px) {
+         max-width: 1600px;
+      }
    }
 `;
 
