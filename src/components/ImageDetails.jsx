@@ -25,22 +25,18 @@ const Wrapper = styled.div`
          ${autoScale}
       }
 
-      .placard {
-         .art-info {
-            width: 50%;
-            background-color: red;
+      .card-wrapper {
+         ${customLayout("space-between", "flex-end")};
 
-            label {
-               width: 100%;
-      
-               span {
-                  margin-right: 1rem;
-               }
-            }
+         .placard {
+            width: 70%;
+            background-color: red;
          }
 
-         .post-controls {
-
+         .user-controls {
+            background-color: yellow;
+            height: 100%;
+            ${customLayout("flex-start")};
          }
       }
    }
@@ -62,15 +58,17 @@ const renderDetails = (error, post) => {
          <>
             <img src="https://via.placeholder.com/1600x900" alt="A dove" />
 
-            <div className="placard">
-               <h2 className="artist">{post.user_id}</h2>
-               <h2 className="title">{post.title}</h2>
-               <h4 className="art-medium">{post.medium}</h4>
-            </div>
-               {/* <div className="user-controls">
+            <div className="card-wrapper">
+               <div className="placard">
+                  <h2 className="artist">{post.artist}</h2>
+                  <h2 className="title">{post.title}</h2>
+                  <h4 className="art-medium">{post.medium}</h4>
+               </div>
+               <div className="user-controls">
                   <p>Edit</p>
                   <p>Delete</p>
-               </div> */}
+               </div>
+            </div>
             <p className="description">{post.description}</p>
          </>
       )
@@ -89,10 +87,12 @@ function ImageDetails({ userToken, match: { params: { id } } }) {
       created_at: "",
       updated_at: "",
       user_id: "",
-      user_name: ""
+      artist: ""
    });
 
    useEffect(() => {
+      let newPost = {...post};
+      console.log(newPost);
       console.log(`Retrieveing Post: ${id}...`);
 
       axios(userToken)
@@ -108,16 +108,39 @@ function ImageDetails({ userToken, match: { params: { id } } }) {
                }
             });
          })
-         .then(response => {
-            console.log(response);
-         })
-         .catch(err => {
-            // setError(err);
+         .then(api_post => {
+            newPost = {
+               ...newPost,
+               ...api_post
+            };
+            console.log(newPost);
+            console.log("Retrieving Artist info...");
 
-            if (err.message) {
-               console.error(`Server Error: ${err.message}`);
+            // return axios(userToken).get(`https://ptbw-art-portfolio.herokuapp.com/users/${api_post.user_id}`);
+            return axios(userToken).get(`https://ptbw-art-portfolio.herokuapp.com/users/4`);
+         })
+         .then(response => {
+            if (!response.data.data || response.data.data.length === 0) {
+               console.log("Failed to retrieve artist!!");
+               throw new Error("Artist not found");
+            }
+
+            console.log("Success!");
+            newPost = {
+               ...newPost,
+               artist: response.data.data[0].fullName
+            };
+            setPost(newPost);
+         })
+         .catch(problem => {
+            setError(problem);
+
+            if (problem.message) {
+               console.error(`Server Error: ${problem.message}`);
+            } else if (problem.response) {
+               console.error(problem.response);
             } else {
-               console.error(err.response);
+               console.error(problem);
             }
          })
    }, []);
