@@ -1,20 +1,12 @@
 //Bring all the files together in one setup export
 import {css} from "styled-components";
 import reset from "./reset";
-import { bodyFont, colors, headerFont, MAX_WIDTH, MIN_WIDTH } from "./variables";
+import { bodyFont, colors, headerFont } from "./variables";
 
 export default css`
    ${reset};
 
-   * {
-      box-sizing: border-box;
-   }
-
-   html {
-      font-size: 62.5%;
-   }
-
-   html, body {
+   & {
       font: 1.6rem ${bodyFont};
       color: ${colors.bodyColor};
       background-color: ${colors.bgColor};
@@ -44,14 +36,5 @@ export default css`
 
    p {
       font-size: 1.6rem;
-   }
-
-   .content {
-      background-color: ${colors.attentionColor};
-      color: ${colors.lightText};
-      margin: 0 auto;
-      min-width: ${MIN_WIDTH};
-      max-width: ${MAX_WIDTH};
-      text-align: center;
    }
 `;
