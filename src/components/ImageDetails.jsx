@@ -72,7 +72,7 @@ function ImageDetails({ userToken, match: { params: { id } } }) {
 
       axios(userToken)
          //GET post by ID
-         .get(`https://ptbw-art-portfolio.herokuapp.com/posts/${id}`)
+         .get(`/posts/${id}`)
          .then(api_resp => {
             return new Promise((resolve, reject) => {
                if (!api_resp.data.data) {
@@ -92,8 +92,8 @@ function ImageDetails({ userToken, match: { params: { id } } }) {
             console.log("Retrieving Artist info...");
 
             //GET artist by User ID
-            return axios(userToken).get(`https://ptbw-art-portfolio.herokuapp.com/users/${post_data.user_id}`);
-            // return axios(userToken).get(`https://ptbw-art-portfolio.herokuapp.com/users/34`);
+            return axios(userToken).get(`/users/${post_data.user_id}`);
+            // return axios(userToken).get(`/users/34`);
          })
          .then(api_resp => {
             if (!api_resp.data.data || api_resp.data.data.length === 0) {
@@ -121,7 +121,7 @@ function ImageDetails({ userToken, match: { params: { id } } }) {
             //    console.error(problem);
             // }
          })
-   }, []);
+   }, [id]);
 
    return <Wrapper>{renderDetails(isLoading, imgDetails, error, userToken)}</Wrapper>;
 }
