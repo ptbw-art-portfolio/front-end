@@ -1,4 +1,4 @@
-.ArtistGallery {
+/* .ArtistGallery {
   margin: auto;
   display: grid;
   grid-template-columns: 25% 25% 25% 25%;
@@ -7,9 +7,9 @@
   border: 1px solid blue;
   border-radius: .5rem;
   width: 90%;
-}
+} */
 
-@media only screen and (max-width: 768px) {
+/* @media only screen and (max-width: 768px) {
   .ArtistGallery {
     grid-template-columns: 33% 33% 33%;
   }
@@ -19,18 +19,18 @@
   .ArtistGallery {
     grid-template-columns: 50% 50%;
   }
-}
+} */
 
-.ArtistGalleryThumbnail {
+/* .ArtistGalleryThumbnail {
   margin: .5rem;
   border: 1px solid indigo;
   border-radius: .35rem;
   position: relative;
   text-align: center;
   color: white;
-}
+} */
 
-.ArtistGalleryImage {
+/* .ArtistGalleryImage {
   width: 100%;
   border: 1px solid yellow;
   border-radius: .35rem;
@@ -38,13 +38,13 @@
 
 .ArtistGalleryImage:hover {
   border: 1px solid red;
-}
+} */
 
-.attribution {
+/* .attribution {
   width: 100%;
   background: rgba(0, 0, 0, 0.65);
   position: absolute;
   top: 90%;
   left: 50%;
   transform: translate(-50%, -50%);
-}
+} */
