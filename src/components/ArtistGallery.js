@@ -60,20 +60,27 @@ const Attribution = styled.div`
   transform: translate(-50%, -50%);
 `;
 
+function pasteArtist(artist) {
+  return (
+  <Link to={`/artist/${artist.username}`} key={artist.username}>
+  <Fade bottom big>
+  <ArtistGalleryThumbnail>
+    <ArtistGalleryImage src={require(`${artist.img}`)} title={`${artist.fullname}'s works`} alt={`${artist.fullname}'s works`}></ArtistGalleryImage>
+    <Attribution>{artist.fullname}</Attribution>
+  </ArtistGalleryThumbnail>
+  </Fade>
+  {/* <Route path={`/artist/${artist.username}`} component={} /> */}
+</Link>
+  )
+}
+
 function ArtistGallery() {
   return (
     <ArtistGallerySection>
       {artists.map(artist => {
         return (
-          <Link to={`/artist/${artist.username}`} key={artist.username}>
-            <Fade bottom big>
-            <ArtistGalleryThumbnail>
-              <ArtistGalleryImage src={require(`${artist.img}`)} title={`${artist.fullname}'s works`} alt={`${artist.fullname}'s works`}></ArtistGalleryImage>
-              <Attribution>{artist.fullname}</Attribution>
-            </ArtistGalleryThumbnail>
-            </Fade>
-            {/* <Route path={`/artist/${artist.username}`} component={} /> */}
-          </Link>
+          // setTimeout(pasteArtist(artist), 1000)
+          pasteArtist(artist)
         )
       })}
     </ArtistGallerySection>
