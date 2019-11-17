@@ -123,11 +123,11 @@ function ImageDetails({ userToken, match: { params: { id } } }) {
          })
    }, []);
 
-   return <Wrapper>{renderDetails(isLoading, imgDetails, error)}</Wrapper>;
+   return <Wrapper>{renderDetails(isLoading, imgDetails, error, userToken)}</Wrapper>;
 }
 
 //render based on error status
-const renderDetails = (isLoading, details, err) => {
+const renderDetails = (isLoading, details, err, userToken) => {
    let innerHTML;
 
    if (isLoading) {
@@ -155,10 +155,16 @@ const renderDetails = (isLoading, details, err) => {
                   <h2 className="title">{details.title}</h2>
                   <h4 className="art-medium">{details.medium}</h4>
                </div>
-               <div className="user-controls">
-                  <p>Edit</p>
-                  <p>Delete</p>
-               </div>
+               {
+                  (userToken)
+                  ? (
+                     <div className="user-controls">
+                        <p>Edit</p>
+                        <p>Delete</p>
+                     </div>
+                  )
+                  : null
+               }
             </div>
             <p className="description">{details.description}</p>
          </>
