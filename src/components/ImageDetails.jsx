@@ -42,32 +42,6 @@ const Wrapper = styled.div`
    }
 `;
 
-//render based on error status
-const renderDetails = (error, post) => {
-   return (<article className="content">{
-      (error)
-      ? <p className="error">{error.message ? error.message : error.response}</p>
-      : (
-         <>
-            <img src="https://via.placeholder.com/1600x900" alt="A dove" />
-
-            <div className="card-wrapper">
-               <div className="placard">
-                  <h2 className="artist">{post.artist}</h2>
-                  <h2 className="title">{post.title}</h2>
-                  <h4 className="art-medium">{post.medium}</h4>
-               </div>
-               <div className="user-controls">
-                  <p>Edit</p>
-                  <p>Delete</p>
-               </div>
-            </div>
-            <p className="description">{post.description}</p>
-         </>
-      )
-   }</article>);
-};
-
 //Connect to Redux store
 const mapStateToProps = state => {
    return {
@@ -76,8 +50,9 @@ const mapStateToProps = state => {
 };
 
 function ImageDetails({ userToken, match: { params: { id } } }) {
+   const [isLoading, setIsLoading] = useState(false);
    const [error, setError] = useState();
-   const [post, setPost] = useState({
+   const [imgDetails, setImgDetails] = useState({
       id: -1,
       title: "",
       medium: "",
@@ -91,10 +66,12 @@ function ImageDetails({ userToken, match: { params: { id } } }) {
    });
 
    useEffect(() => {
-      let newPost = {...post};
-      console.log(`Retrieveing Post: ${id}...`);
+      let newDetails = {...imgDetails};
+      setIsLoading(true);
+      console.log(`Retrieveing details for image ID-${id}...`);
 
       axios(userToken)
+         //GET post by ID
          .get(`https://ptbw-art-portfolio.herokuapp.com/posts/${id}`)
          .then(api_resp => {
             return new Promise((resolve, reject) => {
@@ -108,13 +85,15 @@ function ImageDetails({ userToken, match: { params: { id } } }) {
             });
          })
          .then(post_data => {
-            newPost = {
-               ...newPost,
+            newDetails = {
+               ...newDetails,
                ...post_data
             };
             console.log("Retrieving Artist info...");
 
+            //GET artist by User ID
             return axios(userToken).get(`https://ptbw-art-portfolio.herokuapp.com/users/${post_data.user_id}`);
+            // return axios(userToken).get(`https://ptbw-art-portfolio.herokuapp.com/users/34`);
          })
          .then(api_resp => {
             if (!api_resp.data.data || api_resp.data.data.length === 0) {
@@ -123,27 +102,71 @@ function ImageDetails({ userToken, match: { params: { id } } }) {
             }
 
             console.log("Success!");
-            newPost = {
-               ...newPost,
+            setIsLoading(false);
+            newDetails = {
+               ...newDetails,
                artist: api_resp.data.data[0].fullName
             };
-            setPost(newPost);
+            setImgDetails(newDetails);
          })
          .catch(problem => {
+            setIsLoading(false);
             setError(problem);
 
-            if (problem.message) {
-               console.error(`Server Error: ${problem.message}`);
-            } else if (problem.response) {
-               console.error(problem.response);
-            } else {
-               console.error(problem);
-            }
+            // if (problem.message) {
+            //    console.error(`Server Error: ${problem.message}`);
+            // } else if (problem.response) {
+            //    console.error(problem.response);
+            // } else {
+            //    console.error(problem);
+            // }
          })
    }, []);
 
-   return <Wrapper>{renderDetails(error, post)}</Wrapper>;
+   return <Wrapper>{renderDetails(isLoading, imgDetails, error)}</Wrapper>;
 }
+
+//render based on error status
+const renderDetails = (isLoading, details, err) => {
+   let innerHTML;
+
+   if (isLoading) {
+      innerHTML = <p className="spinner">Loading...</p>;
+   } else if (err) {
+      let message;
+
+      if (err.message) {
+         message = `Server Error: ${err.message}`;
+      } else if (err.response) {
+         message = err.response.toString();
+      } else {
+         message = JSON.stringify(err, null, 3);
+      }
+
+      innerHTML = <p className="error">{message}</p>
+   } else {
+      innerHTML = (
+         <>
+            <img src="https://via.placeholder.com/1600x900" alt="A dove" />
+
+            <div className="card-wrapper">
+               <div className="placard">
+                  <h2 className="artist">{details.artist}</h2>
+                  <h2 className="title">{details.title}</h2>
+                  <h4 className="art-medium">{details.medium}</h4>
+               </div>
+               <div className="user-controls">
+                  <p>Edit</p>
+                  <p>Delete</p>
+               </div>
+            </div>
+            <p className="description">{details.description}</p>
+         </>
+      );
+   }
+   
+   return <article className="content">{innerHTML}</article>;
+};
 
 export default connect(mapStateToProps)(ImageDetails);
 
