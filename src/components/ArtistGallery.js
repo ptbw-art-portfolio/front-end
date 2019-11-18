@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link, Route } from 'react-router-dom';
-import './ArtistGallery.css';
-// import styled from 'styled-components';
+import Fade from 'react-reveal/Fade';
+// import './ArtistGallery.css';
+import styled from 'styled-components';
 
 const artists = [
   {username: "leonardo", fullname: "Leonardo Da Vinci", img: "./img/mona_lisa_by_leonardo_da_vinci.jpg"},
@@ -13,21 +14,90 @@ const artists = [
   {username: "claude", fullname: "Claude Monet", img: "./img/impression,_sunrise_by_claude_monet.jpg"},
 ];
 
+const ArtistGallerySection = styled.section`
+  margin: auto;
+  display: grid;
+  // grid-template-columns: 25% 25% 25% 25%;
+  grid-row-gap: .25rem;
+  box-sizing: border-box;
+  border: 1px solid blue;
+  border-radius: .5rem;
+  width: 90%;
+
+  @media only screen and (min-width: 1201px) {
+    grid-template-columns: 16.67% 16.67% 16.67% 16.67% 16.67% 16.67%;
+  }
+
+  @media only screen and (min-width: 993px) and (max-width: 1200px) {
+    grid-template-columns: 20% 20% 20% 20% 20%;
+  }
+  
+  @media only screen and (min-width: 769px) and (max-width: 992px) {
+    grid-template-columns: 25% 25% 25% 25%;
+  }
+  @media only screen and (min-width: 577px) and (max-width: 768px) {
+    grid-template-columns: 33.3% 33.3% 33.3%;
+  }
+
+  @media only screen and (max-width: 576px) {
+    grid-template-columns: 50% 50%;
+  }
+`;
+
+const ArtistGalleryThumbnail = styled.div`
+  margin: .5rem;
+  border: 1px solid indigo;
+  border-radius: .35rem;
+  position: relative;
+  text-align: center;
+  color: white;
+`;
+
+const ArtistGalleryImage = styled.img`
+  width: 100%;
+  border: 1px solid yellow;
+  border-radius: .35rem;
+  :hover {
+    border: 1px solid red;
+  }
+`;
+
+const Attribution = styled.div`
+  width: 100%;
+  background: rgba(0, 0, 0, 0.65);
+  position: absolute;
+  top: 90%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`;
+
+function pasteArtist(artist) {
+  return (
+  <Link to={`/artist/${artist.username}`} key={artist.username}>
+  <Fade bottom big>
+  <ArtistGalleryThumbnail>
+    <ArtistGalleryImage src={require(`${artist.img}`)} title={`${artist.fullname}'s works`} alt={`${artist.fullname}'s works`}></ArtistGalleryImage>
+    <Attribution>{artist.fullname}</Attribution>
+  </ArtistGalleryThumbnail>
+  </Fade>
+  {/* <Route path={`/artist/${artist.username}`} component={} /> */}
+</Link>
+  )
+}
+
 function ArtistGallery() {
   return (
-    <section className="ArtistGallery">
+    <ArtistGallerySection>
       {artists.map(artist => {
         return (
-          <Link to={`/artist/${artist.username}`} key={artist.username}>
-            <div className="ArtistGalleryThumbnail">
-              <img className="ArtistGalleryImage" src={require(`${artist.img}`)} title={`${artist.fullname}'s works`} alt={`${artist.fullname}'s works`}></img>
-              <div className="attribution">{artist.fullname}</div>
-            </div>
-            {/* <Route path={`/artist/${artist.username}`} component={} /> */}
-          </Link>
+          // setTimeout(function() {pasteArtist(artist)}, 1000)
+          // setTimeout(pasteArtist, 1000, artist)
+          setTimeout(function() {console.log(artist)}, 1000),
+          console.log("test"),
+          pasteArtist(artist)
         )
       })}
-    </section>
+    </ArtistGallerySection>
   );
 }
 
