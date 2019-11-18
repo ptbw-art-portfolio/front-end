@@ -40,12 +40,6 @@ const ArtistSearchBox = styled.input`
 
 function App() {
    return (
-<<<<<<< HEAD
-      <div className="App">
-         <h1>Welcome to the App</h1>
-         <Login />
-      </div>
-=======
      <div className="mainProgram">
        <section className="top">
          <NavBar />
@@ -63,7 +57,6 @@ function App() {
  
        <ArtistGallery />
      </div>
->>>>>>> fbbe9faa570757c04411e46a6aab70ebc68e5850
    );
  }
  
