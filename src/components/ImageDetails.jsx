@@ -4,40 +4,27 @@ import { axiosWithAuth as axios } from "../utils/axiosWithAuth";
 
 //*** Component Styles ***//
 import styled from "styled-components";
-import setup from "./style-utils";
-import {MAX_WIDTH, MIN_WIDTH} from "./style-utils/variables";
 import { autoScale, customLayout } from "./style-utils/mixins";
 
 const Wrapper = styled.div`
-   ${setup};
+   background-color: dodgerblue;
+   
+   img {
+      ${autoScale}
+   }
 
-   & {
-      background-color: dodgerblue;
-   
-      .content {
-         background-color: transparent;
-         margin: 0 auto;
-         min-width: ${MIN_WIDTH};
-         max-width: ${MAX_WIDTH};
-      }
-   
-      img {
-         ${autoScale}
+   .card-wrapper {
+      ${customLayout("space-between", "flex-end")};
+
+      .card-info {
+         width: 70%;
+         background-color: red;
       }
 
-      .card-wrapper {
-         ${customLayout("space-between", "flex-end")};
-
-         .placard {
-            width: 70%;
-            background-color: red;
-         }
-
-         .user-controls {
-            background-color: yellow;
-            height: 100%;
-            ${customLayout("flex-start")};
-         }
+      .user-controls {
+         background-color: yellow;
+         height: 100%;
+         ${customLayout("flex-start")};
       }
    }
 `;
@@ -150,7 +137,7 @@ const renderDetails = (isLoading, details, err, userToken) => {
             <img src="https://via.placeholder.com/1600x900" alt="A dove" />
 
             <div className="card-wrapper">
-               <div className="placard">
+               <div className="card-info">
                   <h2 className="artist">{details.artist}</h2>
                   <h2 className="title">{details.title}</h2>
                   <h4 className="art-medium">{details.medium}</h4>
