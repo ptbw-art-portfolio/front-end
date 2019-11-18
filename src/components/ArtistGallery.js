@@ -27,7 +27,7 @@ const ArtistGallerySection = styled.section`
   @media only screen and (min-width: 1201px) {
     grid-template-columns: 16.67% 16.67% 16.67% 16.67% 16.67% 16.67%;
   }
-  
+
   @media only screen and (min-width: 993px) and (max-width: 1200px) {
     grid-template-columns: 20% 20% 20% 20% 20%;
   }
@@ -36,7 +36,7 @@ const ArtistGallerySection = styled.section`
     grid-template-columns: 25% 25% 25% 25%;
   }
   @media only screen and (min-width: 577px) and (max-width: 768px) {
-    grid-template-columns: 33% 33% 33%;
+    grid-template-columns: 33.3% 33.3% 33.3%;
   }
 
   @media only screen and (max-width: 576px) {
