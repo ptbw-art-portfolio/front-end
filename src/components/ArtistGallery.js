@@ -17,14 +17,25 @@ const artists = [
 const ArtistGallerySection = styled.section`
   margin: auto;
   display: grid;
-  grid-template-columns: 25% 25% 25% 25%;
+  // grid-template-columns: 25% 25% 25% 25%;
   grid-row-gap: .25rem;
   box-sizing: border-box;
   border: 1px solid blue;
   border-radius: .5rem;
   width: 90%;
 
-  @media only screen and (max-width: 768px) {
+  @media only screen and (min-width: 1201px) {
+    grid-template-columns: 16.67% 16.67% 16.67% 16.67% 16.67% 16.67%;
+  }
+  
+  @media only screen and (min-width: 993px) and (max-width: 1200px) {
+    grid-template-columns: 20% 20% 20% 20% 20%;
+  }
+  
+  @media only screen and (min-width: 769px) and (max-width: 992px) {
+    grid-template-columns: 25% 25% 25% 25%;
+  }
+  @media only screen and (min-width: 577px) and (max-width: 768px) {
     grid-template-columns: 33% 33% 33%;
   }
 
@@ -79,7 +90,10 @@ function ArtistGallery() {
     <ArtistGallerySection>
       {artists.map(artist => {
         return (
-          // setTimeout(pasteArtist(artist), 1000)
+          // setTimeout(function() {pasteArtist(artist)}, 1000)
+          // setTimeout(pasteArtist, 1000, artist)
+          setTimeout(function() {console.log(artist)}, 1000),
+          console.log("test"),
           pasteArtist(artist)
         )
       })}
