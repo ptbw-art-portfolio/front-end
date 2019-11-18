@@ -1,4 +1,4 @@
-import {createGlobalStyle} from "styled-components";
+import { createGlobalStyle } from "styled-components";
 import reset from "./reset";
 import { bodyFont, colors, headerFont, MIN_WIDTH, MAX_WIDTH } from "./variables";
 
@@ -19,6 +19,14 @@ export default createGlobalStyle`
       font-family: ${bodyFont};
       color: ${colors.bodyColor};
       /* background-color: ${colors.bgColor}; */
+   }
+
+   body {
+      height: 100%;
+      margin: 0;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      /* background-image: linear-gradient(to bottom right, #b7b6c1, #94958b); */
    }
 
    h1, h2, h3, h4, h5 {
