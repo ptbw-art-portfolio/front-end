@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react'
-//import { axiosWithAuth as axios } from '../utils/axiosConfig'
+import React, { useEffect, useState} from 'react'
+import { axiosWithAuth as axios } from '../utils/axiosWithAuth'
 import { Link } from 'react-router-dom'
 import { Form, Field, withFormik } from 'formik'
 import * as Yup from 'yup'
 import styled from "styled-components"
 
-import axios from 'axios';
+//import axios from 'axios';
 
 
 const Card = styled.div`
@@ -27,7 +27,7 @@ box-shadow: 7px 7px 5px; #2F4F4F;
  -khtml-box-shadow: 7px 7px 7px #2F4F4F;
  `;
 
- const Input = styled.div`
+ const Input = styled(Field)`
     width: 70%;
     margin: 0 auto;
     margin-bottom: 15px;
@@ -39,14 +39,15 @@ box-shadow: 7px 7px 5px; #2F4F4F;
  margin-bottom: 15px;
 `;
 
-const Login = ({ history, status }) => {
-
+function Login() {
+  const [ history, status ] = useState([]);
+  
   useEffect(() => {
     if (status) {
       axios()
         .post('/auth/login', status)
         .then(res => {
-          // console.log(res)
+          console.log(res)
           localStorage.setItem('token', res.data.token)
           localStorage.setItem('user_id', res.data.user.id)
           localStorage.setItem('name', JSON.stringify(res.data.user.name))
@@ -56,7 +57,7 @@ const Login = ({ history, status }) => {
           )
         })
         
-        .catch(err => console.log(err))
+        .catch(err => console.log(err.response))
     }
   }, [status])
 
@@ -70,8 +71,8 @@ const Login = ({ history, status }) => {
           <h1>
         Welcome Artist
       </h1>
-            <Input>
-              <Field
+            
+              <Input
                 variant='outlined'
                 required
                 fullWidth
@@ -80,9 +81,9 @@ const Login = ({ history, status }) => {
                 type='name'
                 placeholder='UserName'
               />
-            </Input>
-            <Input>
-              <Field
+            
+            
+              <Input
                 variant='outlined'
                 required
                 fullWidth
@@ -91,10 +92,11 @@ const Login = ({ history, status }) => {
                 type='password'
                 placeholder='Password'
               />
-            </Input>
+            
           </div>
           <Button>
           <button onClick={null}>
+          
             Log In
           </button>
           </Button>
