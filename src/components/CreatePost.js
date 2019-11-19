@@ -22,9 +22,9 @@ const validationSchema = Yup.object().shape({
         .max(100, "Must be shorter than 100 letters")
         .required("Please enter a valid URL"),
     details: Yup.string()
-        .min(1, "Must have at least one letter")
-        .max(300, "Must be shorter than 300 letters")
-        .required("Please enter details or statement about piece"),
+        .min(0, "Please enter details or statement about piece")
+        .max(150, "Must be shorter than 150 letters"),
+        // .required("Please enter details or statement about piece"),
 });
 
 const Error = ({ touched, message}) => {
@@ -82,9 +82,10 @@ function CreatePost() {
                     </div>
 
                     <div className="inputContainer">
-                        <input type="text" name="details" placeholder="Description" 
+                        <textarea rows="5" cols="30" name="details" placeholder="Description" maxLength="150"
                             className={`TextField ${touched.details && errors.details ? "has-error" : null}`}
-                            onChange={handleChange} onBlur={handleBlur} value={values.details} />
+                            onChange={handleChange} onBlur={handleBlur} value={values.details}>
+                        </textarea>
                         <Error touched={touched.details} message={errors.details} />
                     </div>
 
