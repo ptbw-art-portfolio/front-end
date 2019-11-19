@@ -17,9 +17,9 @@ const validationSchema = Yup.object().shape({
         .min(1, "Must have at least one letter")
         .max(30, "Must be shorter than 30 letters"),
         // .required("Please enter the medium used to create piece"),
-    link: Yup.string()
+    link: Yup.string().url()
         .min(1, "Must have at least one letter")
-        .max(30, "Must be shorter than 30 letters")
+        .max(100, "Must be shorter than 100 letters")
         .required("Please enter a valid URL"),
     details: Yup.string()
         .min(1, "Must have at least one letter")
@@ -75,7 +75,7 @@ function CreatePost() {
                     </div>
 
                     <div className="inputContainer">
-                        <input type="text" name="link" placeholder="Image Link (required)" 
+                        <input type="url" name="link" placeholder="Image Link (required)" 
                             className={`TextField ${touched.link && errors.link ? "has-error" : null}`}
                             onChange={handleChange} onBlur={handleBlur} value={values.link} />
                         <Error touched={touched.link} message={errors.link} />
