@@ -25,7 +25,17 @@ const validationSchema = Yup.object().shape({
         .min(1, "Must have at least one letter")
         .max(300, "Must be shorter than 300 letters")
         .required("Please enter details or statement about piece"),
-})
+});
+
+const Error = ({ touched, message}) => {
+    if (!touched) {
+        return <div className="form-message invalid">&nbsp;</div>;
+    }
+    if (message) {
+        return <div className="form-message invalid">{message}</div>;
+    }
+    return <div className="form-message valid">Thank you!</div>;
+};
 
 function CreatePost() {
     return (
@@ -36,25 +46,40 @@ function CreatePost() {
             {({values, errors, touched, handleChange, handleBlur}) => (
                 <form className="CreatePost">
                     {/* {JSON.stringify(values)} */}
-                    <input type="text" name="title" placeholder="Title"
-                        className={`TextField ${touched.title && errors.title ? "has-error" : null}`}
-                        onChange={handleChange} onBlur={handleBlur} value={values.title} />
+                    <div className="inputContainer">
+                        <input type="text" name="title" placeholder="Title (required)"
+                            className={`TextField ${touched.title && errors.title ? "has-error" : null}`}
+                            onChange={handleChange} onBlur={handleBlur} value={values.title} />
+                        <Error touched={touched.title} message={errors.title} />
+                    </div>
 
-                    <input type="text" name="date" placeholder="Date" 
-                        className={`TextField ${touched.date && errors.date ? "has-error" : null}`}
-                        onChange={handleChange} onBlur={handleBlur} value={values.date} />
+                    <div className="inputContainer">
+                        <input type="text" name="date" placeholder="Date" 
+                            className={`TextField ${touched.date && errors.date ? "has-error" : null}`}
+                            onChange={handleChange} onBlur={handleBlur} value={values.date} />
+                        <Error touched={touched.date} message={errors.date} />
+                    </div>
 
-                    <input type="text" name="medium" placeholder="Medium" 
-                        className={`TextField ${touched.medium && errors.medium ? "has-error" : null}`}
-                        onChange={handleChange} onBlur={handleBlur} value={values.medium} />
+                    <div className="inputContainer">
+                        <input type="text" name="medium" placeholder="Medium" 
+                            className={`TextField ${touched.medium && errors.medium ? "has-error" : null}`}
+                            onChange={handleChange} onBlur={handleBlur} value={values.medium} />
+                        <Error touched={touched.medium} message={errors.medium} />
+                    </div>
 
-                    <input type="text" name="link" placeholder="Image Link" 
-                        className={`TextField ${touched.link && errors.link ? "has-error" : null}`}
-                        onChange={handleChange} onBlur={handleBlur} value={values.link} />
+                    <div className="inputContainer">
+                        <input type="text" name="link" placeholder="Image Link (required)" 
+                            className={`TextField ${touched.link && errors.link ? "has-error" : null}`}
+                            onChange={handleChange} onBlur={handleBlur} value={values.link} />
+                        <Error touched={touched.link} message={errors.link} />
+                    </div>
 
-                    <input type="text" name="details" placeholder="Description" 
-                        className={`TextField ${touched.details && errors.details ? "has-error" : null}`}
-                        onChange={handleChange} onBlur={handleBlur} value={values.details} />
+                    <div className="inputContainer">
+                        <input type="text" name="details" placeholder="Description" 
+                            className={`TextField ${touched.details && errors.details ? "has-error" : null}`}
+                            onChange={handleChange} onBlur={handleBlur} value={values.details} />
+                        <Error touched={touched.details} message={errors.details} />
+                    </div>
 
                     <div className="buttonContainer">
                         <button type="button">Add</button>
