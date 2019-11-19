@@ -1,7 +1,31 @@
 import React from 'react';
 // import styled from 'styled-components';
 import { Formik } from 'formik';
+import * as Yup from 'yup';
 import './CreatePost.css';
+
+const validationSchema = Yup.object().shape({
+    title: Yup.string()
+        .min(1, "Must have at least one letter")
+        .max(30, "Must be shorter than 30 letters")
+        .required("Please enter a name"),
+    date: Yup.string()
+        .min(10, "Date must follow MM/DD/YYYY format")
+        .max(10, "Date must follow MM/DD/YYYY format"),
+        // .required("Please enter date piece was created"),
+    medium: Yup.string()
+        .min(1, "Must have at least one letter")
+        .max(30, "Must be shorter than 30 letters"),
+        // .required("Please enter the medium used to create piece"),
+    link: Yup.string()
+        .min(1, "Must have at least one letter")
+        .max(30, "Must be shorter than 30 letters")
+        .required("Please enter a valid URL"),
+    details: Yup.string()
+        .min(1, "Must have at least one letter")
+        .max(300, "Must be shorter than 300 letters")
+        .required("Please enter details or statement about piece"),
+})
 
 function CreatePost() {
     return (
