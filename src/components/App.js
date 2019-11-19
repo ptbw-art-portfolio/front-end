@@ -4,6 +4,7 @@ import Colors from "./Colors";
 // import './App.css';
 import ArtistGallery from "./ArtistGallery"
 import NavBar from './NavBar';
+import CreatePost from './CreatePost';
 import styled from 'styled-components';
 
 //action creators
@@ -47,6 +48,8 @@ function App() {
          <Banner>
            <AppName>Art Portfolio</AppName>
          </Banner>
+
+         <CreatePost />
  
          <ArtistSearchForm>
            <ArtistSearchBox type="text" name="search" placeholder="&#x1f50d; Search artists..." />

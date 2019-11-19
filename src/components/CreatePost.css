@@ -1,0 +1,20 @@
+.CreatePost {
+    border: 1px solid red;
+    width: 20rem;
+    padding: 4rem;
+}
+
+.TextField {
+    width: 80%;
+    margin-bottom: 1rem;
+}
+
+.buttonContainer {
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+}
+
+button {
+    width: 5rem;
+}

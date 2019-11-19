@@ -92,8 +92,8 @@ function ArtistGallery() {
         return (
           // setTimeout(function() {pasteArtist(artist)}, 1000)
           // setTimeout(pasteArtist, 1000, artist)
-          setTimeout(function() {console.log(artist)}, 1000),
-          console.log("test"),
+          // setTimeout(function() {console.log(artist)}, 1000),
+          // console.log("test"),
           pasteArtist(artist)
         )
       })}
