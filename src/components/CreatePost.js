@@ -29,15 +29,33 @@ const validationSchema = Yup.object().shape({
 
 function CreatePost() {
     return (
-        <Formik initialValues={{title: "", date: "", medium: "", link: "", details: ""}}>
+        <Formik 
+            initialValues={{title: "", date: "", medium: "", link: "", details: ""}}
+            validationSchema={validationSchema}>
+
             {({values, errors, touched, handleChange, handleBlur}) => (
                 <form className="CreatePost">
                     {/* {JSON.stringify(values)} */}
-                    <input type="text" className="TextField" name="title" placeholder="Title" onChange={handleChange} onBlur={handleBlur} value={values.title} />
-                    <input type="text" className="TextField" name="date" placeholder="Date" onChange={handleChange} onBlur={handleBlur} value={values.date} />
-                    <input type="text" className="TextField" name="medium" placeholder="Medium" onChange={handleChange} onBlur={handleBlur} value={values.medium} />
-                    <input type="text" className="TextField" name="link" placeholder="Image Link" onChange={handleChange} onBlur={handleBlur} value={values.link} />
-                    <input type="text" className="TextField" name="details" placeholder="Description" onChange={handleChange} onBlur={handleBlur} value={values.details} />
+                    <input type="text" name="title" placeholder="Title"
+                        className={`TextField ${touched.title && errors.title ? "has-error" : null}`}
+                        onChange={handleChange} onBlur={handleBlur} value={values.title} />
+
+                    <input type="text" name="date" placeholder="Date" 
+                        className={`TextField ${touched.date && errors.date ? "has-error" : null}`}
+                        onChange={handleChange} onBlur={handleBlur} value={values.date} />
+
+                    <input type="text" name="medium" placeholder="Medium" 
+                        className={`TextField ${touched.medium && errors.medium ? "has-error" : null}`}
+                        onChange={handleChange} onBlur={handleBlur} value={values.medium} />
+
+                    <input type="text" name="link" placeholder="Image Link" 
+                        className={`TextField ${touched.link && errors.link ? "has-error" : null}`}
+                        onChange={handleChange} onBlur={handleBlur} value={values.link} />
+
+                    <input type="text" name="details" placeholder="Description" 
+                        className={`TextField ${touched.details && errors.details ? "has-error" : null}`}
+                        onChange={handleChange} onBlur={handleBlur} value={values.details} />
+
                     <div className="buttonContainer">
                         <button type="button">Add</button>
                         <button type="button">Cancel</button>
