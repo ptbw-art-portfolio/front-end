@@ -1,7 +1,8 @@
 .CreatePost {
     border: 1px solid red;
-    width: 20rem;
-    padding: 4rem;
+    border-radius: .35rem;
+    width: 18rem;
+    padding: 4rem 1rem 4rem 3rem;
 }
 
 .TextField {
@@ -13,6 +14,7 @@
     width: 80%;
     display: flex;
     justify-content: space-between;
+    border-radius: .35rem;
 }
 
 button {
