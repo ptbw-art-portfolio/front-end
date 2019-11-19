@@ -1,6 +1,6 @@
 import React from 'react';
 import Colors from "./Colors";
- // import { Route } from 'react-router-dom';
+ import { Route } from 'react-router-dom';
 // import './App.css';
 import ArtistGallery from "./ArtistGallery"
 import NavBar from './NavBar';
@@ -42,14 +42,14 @@ function App() {
      <div className="mainProgram">
        <section className="top">
          <NavBar />
-         {/* <Route path='/upload' component={} /> */}
+         <Route path='/upload' component={CreatePost} />
          {/* <Route path='/sign-in' component={} /> */}
  
          <Banner>
            <AppName>Art Portfolio</AppName>
          </Banner>
 
-         <CreatePost />
+         {/* <CreatePost /> */}
  
          <ArtistSearchForm>
            <ArtistSearchBox type="text" name="search" placeholder="&#x1f50d; Search artists..." />
