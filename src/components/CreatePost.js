@@ -9,9 +9,9 @@ const validationSchema = Yup.object().shape({
         .min(1, "Must have at least one letter")
         .max(30, "Must be shorter than 30 letters")
         .required("Please enter a name"),
-    date: Yup.string()
-        .min(10, "Date must follow MM/DD/YYYY format")
-        .max(10, "Date must follow MM/DD/YYYY format"),
+    date: Yup.date()
+        .min('01/01/1900', "Date must be after 01/01/1900")
+        .max(new Date(), "Date cannot be after today"),
         // .required("Please enter date piece was created"),
     medium: Yup.string()
         .min(1, "Must have at least one letter")
@@ -61,7 +61,7 @@ function CreatePost() {
                     </div>
 
                     <div className="inputContainer">
-                        <input type="text" name="date" placeholder="Date" 
+                        <input type="date" name="date" placeholder="Date" 
                             className={`TextField ${touched.date && errors.date ? "has-error" : null}`}
                             onChange={handleChange} onBlur={handleBlur} value={values.date} />
                         <Error touched={touched.date} message={errors.date} />
