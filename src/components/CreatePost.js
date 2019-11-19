@@ -41,10 +41,17 @@ function CreatePost() {
     return (
         <Formik 
             initialValues={{title: "", date: "", medium: "", link: "", details: ""}}
-            validationSchema={validationSchema}>
+            validationSchema={validationSchema}
+            onSubmit={(values, {setSubmitting, resetForm}) => {
+                setSubmitting(true);
+                alert(JSON.stringify(values, null, 2));
+                // remove alert and place axios call or save function call here
+                resetForm();
+                setSubmitting(false);
+            }}>
 
-            {({values, errors, touched, handleChange, handleBlur}) => (
-                <form className="CreatePost">
+            {({values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting}) => (
+                <form className="CreatePost" onSubmit={handleSubmit}>
                     {/* {JSON.stringify(values)} */}
                     <div className="inputContainer">
                         <input type="text" name="title" placeholder="Title (required)"
@@ -82,7 +89,7 @@ function CreatePost() {
                     </div>
 
                     <div className="buttonContainer">
-                        <button type="button">Add</button>
+                        <button type="submit" disabled={isSubmitting}>Add</button>
                         <button type="button">Cancel</button>
                     </div>
                 </form>
