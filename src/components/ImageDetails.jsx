@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { connect } from "react-redux";
-import { axiosWithAuth as axios } from "../utils/axiosWithAuth";
+import { getImageDetails } from "../store/details/useActions";
+import { getToken } from "../utils/axiosWithAuth";
 
 //*** Component Styles ***//
 import styled from "styled-components";
@@ -32,89 +33,82 @@ const Wrapper = styled.div`
 //Connect to Redux store
 const mapStateToProps = state => {
    return {
-      userToken: state.auth.token
+      ...state.auth
    };
 };
 
-function ImageDetails({ userToken, match: { params: { id } } }) {
-   const [isLoading, setIsLoading] = useState(false);
-   const [error, setError] = useState();
-   const [imgDetails, setImgDetails] = useState({
-      id: -1,
-      title: "",
-      medium: "",
-      image_url: "",
-      description: "",
-      likes: "",
-      created_at: "",
-      updated_at: "",
-      user_id: "",
-      artist: ""
-   });
+const mapDispatchToProps = {
+   getImageDetails
+};
 
-   useEffect(() => {
-      let newDetails = {...imgDetails};
-      setIsLoading(true);
-      console.log(`Retrieveing details for image ID-${id}...`);
+function ImageDetails({ isLoading, error, imgDetails, match: { params: { id } }, getImageDetails }) {
+   const isLoggedIn = (getToken() !== null);
 
-      axios(userToken)
-         //GET post by ID
-         .get(`/posts/${id}`)
-         .then(api_resp => {
-            return new Promise((resolve, reject) => {
-               if (!api_resp.data.data) {
-                  console.log("Failed to retrieve post!!");
-                  reject(api_resp.data);
-               } else {
-                  console.log("Success!");
-                  resolve(api_resp.data.data[0]);
-               }
-            });
-         })
-         .then(post_data => {
-            newDetails = {
-               ...newDetails,
-               ...post_data
-            };
-            console.log("Retrieving Artist info...");
+   useEffect(() => getImageDetails(id), []);
+   // useEffect(() => {
+   //    let newDetails = {...imgDetails};
+   //    setIsLoading(true);
+   //    console.log(`Retrieveing details for image ID-${id}...`);
 
-            //GET artist by User ID
-            return axios(userToken).get(`/users/${post_data.user_id}`);
-            // return axios(userToken).get(`/users/34`);
-         })
-         .then(api_resp => {
-            if (!api_resp.data.data || api_resp.data.data.length === 0) {
-               console.log("Failed to retrieve artist!!");
-               throw new Error("Artist not found");
-            }
+   //    axios()
+   //       //GET post by ID
+   //       .get(`/posts/${id}`)
+   //       .then(api_resp => {
+   //          return new Promise((resolve, reject) => {
+   //             if (!api_resp.data.data) {
+   //                console.log("Failed to retrieve post!!");
+   //                reject(api_resp.data);
+   //             } else {
+   //                console.log("Success!");
+   //                resolve(api_resp.data.data[0]);
+   //             }
+   //          });
+   //       })
+   //       .then(post_data => {
+   //          newDetails = {
+   //             ...newDetails,
+   //             ...post_data
+   //          };
+   //          console.log("Retrieving Artist info...");
 
-            console.log("Success!");
-            setIsLoading(false);
-            newDetails = {
-               ...newDetails,
-               artist: api_resp.data.data[0].fullName
-            };
-            setImgDetails(newDetails);
-         })
-         .catch(problem => {
-            setIsLoading(false);
-            setError(problem);
+   //          //GET artist by User ID
+   //          return axios(userToken).get(`/users/${post_data.user_id}`);
+   //          // return axios(userToken).get(`/users/34`);
+   //       })
+   //       .then(api_resp => {
+   //          if (!api_resp.data.data || api_resp.data.data.length === 0) {
+   //             console.log("Failed to retrieve artist!!");
+   //             throw new Error("Artist not found");
+   //          }
 
-            // if (problem.message) {
-            //    console.error(`Server Error: ${problem.message}`);
-            // } else if (problem.response) {
-            //    console.error(problem.response);
-            // } else {
-            //    console.error(problem);
-            // }
-         })
-   }, [id]);
+   //          console.log("Success!");
+   //          setIsLoading(false);
+   //          newDetails = {
+   //             ...newDetails,
+   //             artist: api_resp.data.data[0].fullName
+   //          };
+   //          setImgDetails(newDetails);
+   //       })
+   //       .catch(problem => {
+   //          setIsLoading(false);
+   //          setError(problem);
 
-   return <Wrapper>{renderDetails(isLoading, imgDetails, error, userToken)}</Wrapper>;
+   //          // if (problem.message) {
+   //          //    console.error(`Server Error: ${problem.message}`);
+   //          // } else if (problem.response) {
+   //          //    console.error(problem.response);
+   //          // } else {
+   //          //    console.error(problem);
+   //          // }
+   //       })
+   // }, [id]);
+
+   // return <Wrapper>{renderDetails(isLoading, imgDetails, error, isLoggedIn)}</Wrapper>;
+   return <Wrapper>{renderDetails(true)}</Wrapper>;
 }
 
 //render based on error status
-const renderDetails = (isLoading, details, err, userToken) => {
+const renderDetails = (isLoading, details, err, isLoggedIn) => {
    let innerHTML;
 
    if (isLoading) {
@@ -143,25 +137,25 @@ const renderDetails = (isLoading, details, err, userToken) => {
                   <h4 className="art-medium">{details.medium}</h4>
                </div>
                {
-                  (userToken)
-                  ? (
-                     <div className="user-controls">
-                        <p>Edit</p>
-                        <p>Delete</p>
-                     </div>
-                  )
-                  : null
+                  (isLoggedIn)
+                     ? (
+                        <div className="user-controls">
+                           <p>Edit</p>
+                           <p>Delete</p>
+                        </div>
+                     )
+                     : null
                }
             </div>
             <p className="description">{details.description}</p>
          </>
       );
    }
-   
+
    return <article className="content">{innerHTML}</article>;
 };
 
-export default connect(mapStateToProps)(ImageDetails);
+export default connect(mapStateToProps, mapDispatchToProps)(ImageDetails);
 
 
 //GET /posts/:id
