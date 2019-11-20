@@ -5,7 +5,6 @@ import {Provider} from "react-redux";
 import './index.css';
 import App from './components/App';
 
-
 //create redux store
 import store from "./store";
 
