@@ -4,18 +4,15 @@ import {LOGIN_START, LOGIN_SUCCESS, LOGIN_ERROR} from "./authTypes";
 export function login (credentials) {
    return dispatch => {
       dispatch({type: LOGIN_START});
-      console.log("Loggin in...");
    
       axios()
          .post("/auth/login", credentials)
          .then(response => {
-            console.log(response);
-            // dispatch({type: LOGIN_SUCCESS, payload: response.data.user});
-            // setToken(response.data.token);
+            dispatch({type: LOGIN_SUCCESS, payload: response.data.user});
+            setToken(response.data.token);
          })
          .catch(error => {
-            console.error(error.response);
-            // dispatch({type: LOGIN_ERROR, payload: error.response.error});
+            dispatch({type: LOGIN_ERROR, payload: error.response});
          })
    };
 };
