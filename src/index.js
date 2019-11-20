@@ -2,12 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
 import {Provider} from "react-redux";
-import {BrowserRouter as Router} from "react-router-dom";
-// import './index.css';
+
+//Components
 import GlobalStyle from "./components/style-utils/GlobalStyle";
 import App from './components/App';
 
-//create redux store
+//Redux store
 import store from "./store";
 
 ReactDOM.render(

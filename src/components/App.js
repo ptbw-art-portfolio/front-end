@@ -1,5 +1,5 @@
 import React from 'react';
-import Colors from "./Colors";
+// import Colors from "./Colors";
  import { Route } from 'react-router-dom';
 // import './App.css';
 import ArtistGallery from "./ArtistGallery"
