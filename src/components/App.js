@@ -4,7 +4,7 @@ import React from 'react';
 // import './App.css';
 import ArtistGallery from "./ArtistGallery"
 import NavBar from './NavBar';
-import CreatePost from './CreatePost';
+// import CreatePost from './CreatePost';
 import styled from 'styled-components';
 
 //action creators
@@ -42,7 +42,7 @@ function App() {
      <div className="mainProgram">
        <section className="top">
          <NavBar />
-         <Route path='/upload' component={CreatePost} />
+         {/* <Route path='/upload' component={} /> */}
          {/* <Route path='/sign-in' component={} /> */}
  
          <Banner>
