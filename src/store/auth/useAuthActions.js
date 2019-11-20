@@ -1,25 +1,18 @@
-import {axiosWithAuth as axios} from "../../utils/axiosWithAuth";
-import {AUTH_START, AUTH_SUCCESS, AUTH_ERROR} from "./authTypes";
-//import useLocalStorage hook.
+import {axiosWithAuth as axios, setToken} from "../../utils/axiosWithAuth";
+import {LOGIN_START, LOGIN_SUCCESS, LOGIN_ERROR} from "./authTypes";
 
-export function login (isSaveLogin) {
+export function login (credentials) {
    return dispatch => {
-      dispatch({type: AUTH_START});
+      dispatch({type: LOGIN_START});
    
-      //axios call
-      // axios()
-      //    .get("/login")
-      //    .then(response => {
-      //       if (shouldSaveLogin) {
-      //          //use the save login hook
-      //       }
-      //       dispatch({type: AUTH_START, payload: response.data});
-      //    })
-      //    .catch(error => {
-      //       dispatch({type: AUTH_ERROR, payload: error.response});
-      //    })
-      
-      // dispatch({type: AUTH_SUCCESS, payload: "ThisIsAnAuthToken"});
-      dispatch({type: AUTH_ERROR, payload: {error: "Fake Error"}});
+      axios()
+         .post("/auth/login", credentials)
+         .then(response => {
+            dispatch({type: LOGIN_SUCCESS, payload: response.data.user});
+            setToken(response.data.token);
+         })
+         .catch(error => {
+            dispatch({type: LOGIN_ERROR, payload: error.response});
+         })
    };
 };

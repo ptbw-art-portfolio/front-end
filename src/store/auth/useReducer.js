@@ -1,34 +1,40 @@
-import { AUTH_START, AUTH_SUCCESS, AUTH_ERROR } from "./authTypes";
+import { LOGIN_START, LOGIN_SUCCESS, LOGIN_ERROR } from "./authTypes";
 
 const NO_ERRORS = null;
-const NO_TOKEN = null;
 export const INITIAL_STATE = {
-   token: NO_TOKEN,
+   user: {
+      id: -1,
+      name: "",
+      fullName: "",
+   },
    isAuthorizing: false,
    error: NO_ERRORS,
 };
 
 export default (state = INITIAL_STATE, action) => {
-   console.log(action.type);
-
    switch (action.type) {
-      case AUTH_START:
+      case LOGIN_START:
          return {
             ...state,
+            user: {
+               ...state.user
+            },
             isAuthorizing: true,
             error: NO_ERRORS
          };
-      case AUTH_SUCCESS:
+      case LOGIN_SUCCESS:
          return {
             ...state,
-            token: action.payload,
+            user: action.payload,
             isAuthorizing: false,
             error: NO_ERRORS
          };
-      case AUTH_ERROR:
+      case LOGIN_ERROR:
          return {
             ...state,
-            token: NO_TOKEN,
+            user: {
+               ...state.user
+            },
             isAuthorizing: false,
             error: action.payload
          };
