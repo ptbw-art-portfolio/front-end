@@ -1,0 +1,34 @@
+.CreatePost {
+    border: 1px solid red;
+    border-radius: .35rem;
+    width: 18rem;
+    padding: 2rem 1rem 4rem 3rem;
+}
+
+.TextField {
+    width: 80%;
+    margin-top: 1rem;
+}
+
+.buttonContainer {
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+    border-radius: .35rem;
+    margin-top: 1rem;
+}
+
+button {
+    width: 5rem;
+}
+
+.form-message {
+    font-size: .75rem;
+    padding-top: .25rem;
+  }
+  .form-message.valid {
+    color: limegreen;
+  }
+  .form-message.invalid {
+    color: crimson;
+  }
