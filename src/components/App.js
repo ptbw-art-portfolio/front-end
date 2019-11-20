@@ -4,6 +4,7 @@ import React from 'react';
 // import './App.css';
 import ArtistGallery from "./ArtistGallery"
 import NavBar from './NavBar';
+import AddPostModal from './AddPostModal';
 // import CreatePost from './CreatePost';
 import styled from 'styled-components';
 
@@ -42,7 +43,7 @@ function App() {
      <div className="mainProgram">
        <section className="top">
          <NavBar />
-         {/* <Route path='/upload' component={} /> */}
+         <Route path='/upload' component={AddPostModal} />
          {/* <Route path='/sign-in' component={} /> */}
  
          <Banner>

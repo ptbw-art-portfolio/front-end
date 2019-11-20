@@ -29,14 +29,14 @@ const NavIcon = styled.i`
 function NavBar() {
   return (
     <NavBarMenu>
-      <AddPostModal />
       
       <Link to='/'>
         <NavIcon className="fas fa-home" title="Home"></NavIcon>
       </Link>
 
       <Link to='/upload'>
-      <NavIcon className="fas fa-plus-circle" title="Upload"></NavIcon>
+        {/* <NavIcon className="fas fa-plus-circle" title="Upload"></NavIcon> */}
+        <AddPostModal />
       </Link>
 
       <Link to='/sign-in'>
