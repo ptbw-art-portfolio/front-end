@@ -1,11 +1,10 @@
-import React, { useEffect, useState} from 'react'
-import { axiosWithAuth as axios } from '../utils/axiosWithAuth'
+import React, {useEffect} from 'react'
 import { Link } from 'react-router-dom'
 import { Form, Field, withFormik } from 'formik'
 import * as Yup from 'yup'
 import styled from "styled-components"
-
-//import axios from 'axios';
+import { connect } from "react-redux";
+import {login} from "../store/auth/useAuthActions";
 
 
 const Card = styled.div`
@@ -39,28 +38,19 @@ box-shadow: 7px 7px 5px; #2F4F4F;
  margin-bottom: 15px;
 `;
 
-function Login() {
-  const [ history, status ] = useState([]);
-  
-  useEffect(() => {
-    if (status) {
-      axios()
-        .post('/auth/login', status)
-        .then(res => {
-          console.log(res)
-          localStorage.setItem('token', res.data.token)
-          localStorage.setItem('user_id', res.data.user.id)
-          localStorage.setItem('name', JSON.stringify(res.data.user.name))
-          localStorage.setItem(
-            'fullName',
-            JSON.stringify(res.data.user.fullName),
-          )
-        })
-        
-        .catch(err => console.log(err.response))
-    }
-  }, [status])
+//Connect to Redux store
+const mapStateToProps = state => {
+  return {
+     ...state.auth
+  };
+};
 
+const mapDispatchToProps = {
+  login
+};
+
+function Login({user, isAuthorizing, error, login, history}) {
+  
   return (
      
       <Card>
@@ -68,18 +58,18 @@ function Login() {
         {/* Start of form */}
         <Form>
           <div>
-          <h1>
-        Welcome Artist
-      </h1>
+            <h1>
+              Welcome Artist
+            </h1>
             
               <Input
                 variant='outlined'
                 required
                 fullWidth
                 label='Name'
-                name='name'
-                type='name'
-                placeholder='UserName'
+                name='email'
+                type='email'
+                placeholder='Email'
               />
             
             
@@ -95,7 +85,7 @@ function Login() {
             
           </div>
           <Button>
-          <button onClick={null}>
+          <button onClick={login}>
           
             Log In
           </button>
@@ -108,24 +98,35 @@ function Login() {
   )
 }
 
-export default withFormik({
-  mapPropsToValues: ({ name, password }) => {
-    return {
-      name: name || '',
-      password: password || '',
-    }
-  },
+export default connect(mapStateToProps, mapDispatchToProps)(
+  withFormik({
+    mapPropsToValues: ({ email, password, login, history }) => {
+    // mapPropsToValues: (props) => {
+      // console.log(props)
+      return {
+        email: email || '',
+        password: password || '',
+        login,
+        history
+        // email: props.email || '',
+        // password: props.password || '',
+        // login: props.login
+      }
+    },
+  
+    // Validation
+    validationSchema: Yup.object().shape({
+      email: Yup.string()
+        .required('Please provide your email.'),
+      password: Yup.string().required('Please provide your password.'),
+    }),
+  
+    // handleSubmit
+    handleSubmit({ email, password, login, history }) {
+    // handleSubmit(props) {
+      console.log({ email, password })
+      login({ email, password }, history)
+    },
+  })(Login)
 
-  // Validation
-  validationSchema: Yup.object().shape({
-    name: Yup.string()
-      .required('Please provide your name.'),
-    password: Yup.string().required('Please provide your password.'),
-  }),
-
-  // handleSubmit
-  handleSubmit(values, { setStatus }) {
-    // console.log(values)
-    setStatus(values)
-  },
-})(Login)
+) 
