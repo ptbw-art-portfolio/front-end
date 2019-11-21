@@ -1,16 +1,12 @@
 import React from 'react';
-
 import { Route } from 'react-router-dom';
 
+//Components
 import ArtistGallery from "./ArtistGallery"
-import NavBar from './NavBar';	import NavBar from './NavBar';
+import NavBar from './NavBar';
 import AddPostModal from './AddPostModal';
-// import CreatePost from './CreatePost';
 import styled from 'styled-components';
 import ImageDetails from "./ImageDetails";
-
-//action creators
-import { } from "../store/auth/useAuthActions";
 
 const Banner = styled.div`
    display: flex;
