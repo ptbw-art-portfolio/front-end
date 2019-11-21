@@ -1,13 +1,13 @@
 import React from 'react';
-// import Colors from "./Colors";
+
 import { Route } from 'react-router-dom';
 
-//Components
-import styled from 'styled-components';
-import NavBar from './NavBar';
-import CreatePost from './CreatePost';
 import ArtistGallery from "./ArtistGallery"
 import ImageDetails from "./ImageDetails";
+import NavBar from './NavBar';	import NavBar from './NavBar';
+import AddPostModal from './AddPostModal';
+// import CreatePost from './CreatePost';
+import styled from 'styled-components';
 
 //action creators
 import { } from "../store/auth/useAuthActions";
@@ -44,7 +44,7 @@ function App() {
       <div className="mainProgram">
          <section className="top">
             <NavBar />
-            <Route path='/upload' component={CreatePost} />
+            <Route path='/upload' component={AddPostModal} />
             {/* <Route path='/sign-in' component={} /> */}
 
             <Banner>
