@@ -12,10 +12,6 @@ const NavIcon = styled.i`
   :hover {
     color: gray;
   }
-
-  :nth-child(5) {
-    margin-right: 1rem;
-  }
 `
 
 export default function AddPostModal() {
@@ -31,7 +27,7 @@ export default function AddPostModal() {
         <div>
             <div color="default" onClick={handleClickOpen}>
                 {/* <img src="https://img.icons8.com/material-rounded/48/000000/menu-2.png" /> */}
-                <NavIcon className="fas fa-plus-circle" title="Upload"></NavIcon>
+                <NavIcon color="default" onClick={handleClickOpen} className="fas fa-plus-circle" title="Upload"></NavIcon>
             </div>
             <Dialog
                 open={open}

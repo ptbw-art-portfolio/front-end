@@ -11,6 +11,7 @@ const NavBarMenu = styled.nav`
   border: 1px solid red;
   height: 3rem;
   width: 100%;
+  padding-right: 1rem;
 `
 
 const NavIcon = styled.i`
@@ -19,10 +20,6 @@ const NavIcon = styled.i`
 
   :hover {
     color: gray;
-  }
-
-  :nth-child(5) {
-    margin-right: 1rem;
   }
 `
 
@@ -42,9 +39,8 @@ function NavBar() {
       <Link to='/sign-in'>
       <NavIcon className="fas fa-sign-in-alt" title="Sign in/Register"></NavIcon>
       </Link>
+      
     </NavBarMenu>
-
-    
   );
 }
 
