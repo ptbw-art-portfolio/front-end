@@ -1,6 +1,5 @@
 import React from 'react';
-// import Colors from "./Colors";
- import { Route } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 // import './App.css';
 import ArtistGallery from "./ArtistGallery"
 import NavBar from './NavBar';
@@ -23,6 +22,11 @@ const Banner = styled.div`
 
 const AppName = styled.h1`
   font-size: 3rem;
+
+  a {
+    text-decoration: none;
+    display: inline-block;
+  }
 `
 
 const ArtistSearchForm = styled.form`
@@ -47,7 +51,9 @@ function App() {
          {/* <Route path='/sign-in' component={} /> */}
  
          <Banner>
-           <AppName>Art Portfolio</AppName>
+          <AppName>
+            <Link to='/'>Art Portfolio</Link>
+          </AppName>          
          </Banner>
 
          {/* <CreatePost /> */}
