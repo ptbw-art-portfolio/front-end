@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Link } from 'react-router-dom';
 
 //Components
 import ArtistGallery from "./ArtistGallery"
@@ -18,8 +18,13 @@ const Banner = styled.div`
    width: 100%;
 `
 
-const AppName = styled.h1`
-   font-size: 3rem;
+const AppName = styled(Link)`
+   outline: transparent;
+   text-decoration: none;
+
+   h1 {
+      font-size: 3rem;
+   }
 `
 
 const ArtistSearchForm = styled.form`
@@ -41,10 +46,11 @@ function App() {
          <section className="top">
             <NavBar />
             <Route path='/upload' component={AddPostModal} />
+            {/* <Route path='/upload' component={AddPostModal} /> */}
             {/* <Route path='/sign-in' component={} /> */}
 
             <Banner>
-               <AppName>Art Portfolio</AppName>
+               <AppName to="/"><h2>Art Portfolio</h2></AppName>
             </Banner>
 
             {/* <CreatePost /> */}
