@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useEffect } from "react"
 import { connect } from "react-redux";
 import { getImageDetails } from "../store/details/useActions";
 import { getToken } from "../utils/axiosWithAuth";
@@ -33,7 +33,7 @@ const Wrapper = styled.div`
 //Connect to Redux store
 const mapStateToProps = state => {
    return {
-      ...state.auth
+      ...state.details
    };
 };
 
@@ -42,88 +42,16 @@ const mapDispatchToProps = {
 };
 
 function ImageDetails({ isLoading, error, imgDetails, match: { params: { id } }, getImageDetails }) {
-   const isLoggedIn = (getToken() !== null);
-
+   //Get image details on load or if match changes somehow
    useEffect(() => getImageDetails(id), []);
-   // useEffect(() => {
-   //    let newDetails = {...imgDetails};
-   //    setIsLoading(true);
-   //    console.log(`Retrieveing details for image ID-${id}...`);
 
-   //    axios()
-   //       //GET post by ID
-   //       .get(`/posts/${id}`)
-   //       .then(api_resp => {
-   //          return new Promise((resolve, reject) => {
-   //             if (!api_resp.data.data) {
-   //                console.log("Failed to retrieve post!!");
-   //                reject(api_resp.data);
-   //             } else {
-   //                console.log("Success!");
-   //                resolve(api_resp.data.data[0]);
-   //             }
-   //          });
-   //       })
-   //       .then(post_data => {
-   //          newDetails = {
-   //             ...newDetails,
-   //             ...post_data
-   //          };
-   //          console.log("Retrieving Artist info...");
-
-   //          //GET artist by User ID
-   //          return axios(userToken).get(`/users/${post_data.user_id}`);
-   //          // return axios(userToken).get(`/users/34`);
-   //       })
-   //       .then(api_resp => {
-   //          if (!api_resp.data.data || api_resp.data.data.length === 0) {
-   //             console.log("Failed to retrieve artist!!");
-   //             throw new Error("Artist not found");
-   //          }
-
-   //          console.log("Success!");
-   //          setIsLoading(false);
-   //          newDetails = {
-   //             ...newDetails,
-   //             artist: api_resp.data.data[0].fullName
-   //          };
-   //          setImgDetails(newDetails);
-   //       })
-   //       .catch(problem => {
-   //          setIsLoading(false);
-   //          setError(problem);
-
-   //          // if (problem.message) {
-   //          //    console.error(`Server Error: ${problem.message}`);
-   //          // } else if (problem.response) {
-   //          //    console.error(problem.response);
-   //          // } else {
-   //          //    console.error(problem);
-   //          // }
-   //       })
-   // }, [id]);
-
-   // return <Wrapper>{renderDetails(isLoading, imgDetails, error, isLoggedIn)}</Wrapper>;
-   return <Wrapper>{renderDetails(true)}</Wrapper>;
-}
-
-//render based on error status
-const renderDetails = (isLoading, details, err, isLoggedIn) => {
+   const isLoggedIn = (getToken() !== null);
    let innerHTML;
 
    if (isLoading) {
       innerHTML = <p className="spinner">Loading...</p>;
-   } else if (err) {
-      let message;
-
-      if (err.message) {
-         message = `Server Error: ${err.message}`;
-      } else if (err.response) {
-         message = err.response.toString();
-      } else {
-         message = JSON.stringify(err, null, 3);
-      }
-
+   } else if (error) {
+      const message = `Server Error: ${error.data.message} ${error.status}`;
       innerHTML = <p className="error">{message}</p>
    } else {
       innerHTML = (
@@ -132,9 +60,9 @@ const renderDetails = (isLoading, details, err, isLoggedIn) => {
 
             <div className="card-wrapper">
                <div className="card-info">
-                  <h2 className="artist">{details.artist}</h2>
-                  <h2 className="title">{details.title}</h2>
-                  <h4 className="art-medium">{details.medium}</h4>
+                  <h2 className="artist">{imgDetails.artist}</h2>
+                  <h2 className="title">{imgDetails.title}</h2>
+                  <h4 className="art-medium">{imgDetails.medium}</h4>
                </div>
                {
                   (isLoggedIn)
@@ -147,15 +75,15 @@ const renderDetails = (isLoading, details, err, isLoggedIn) => {
                      : null
                }
             </div>
-            <p className="description">{details.description}</p>
+            <p className="description">{imgDetails.description}</p>
          </>
       );
    }
 
-   return <article className="content">{innerHTML}</article>;
-};
+   return <Wrapper><article className="content">{innerHTML}</article></Wrapper>;
+}
 
-export default connect(mapStateToProps, mapDispatchToProps)(ImageDetails);
+export default connect(mapStateToProps, {getImageDetails})(ImageDetails);
 
 
 //GET /posts/:id

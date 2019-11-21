@@ -1,5 +1,5 @@
-import {axiosWithAuth as axios, setToken} from "../../utils/axiosWithAuth";
-import { FETCH_DETAILS_START, FETCH_DETAILS_SUCCESS } from "./actionTypes";
+import {axiosWithAuth as axios} from "../../utils/axiosWithAuth";
+import { FETCH_DETAILS_START, FETCH_DETAILS_SUCCESS, FETCH_ARTIST_SUCCESS, FETCH_ERROR } from "./actionTypes";
 
 export function getImageDetails (id) {
    return dispatch => {
@@ -9,59 +9,32 @@ export function getImageDetails (id) {
       //GET post by ID
       axios().get(`/posts/${id}`)
          .then(api_resp => {
-            // dispatch({type: FETCH_DETAILS_SUCCESS, payload: api_resp});
+            const payload = api_resp.data[0];
             console.log(api_resp);
-            // return new Promise((resolve, reject) => {
-            //    if (!api_resp.data.data) {
-            //       console.log("Failed to retrieve post!!");
-            //       reject(api_resp.data);
-            //    } else {
-            //       console.log("Success!");
-            //       resolve(api_resp.data.data[0]);
-            //    }
-            // });
+            dispatch({type: FETCH_DETAILS_SUCCESS, payload});
+
+            console.log("Retrieving Artist Name...");
+            return axios().get(`/users/${payload.user_id}`);
+            // return axios().get(`/users/34`);
+         })
+         .then(api_resp => {
+            console.log((api_resp.data) && api_resp.data);
+            if (!api_resp.data || api_resp.data.length === 0) {
+               console.log("Failed to retrieve artist!!");
+               throw new Error("Artist not found");
+            }
+
+            console.log("Success!");
+            dispatch({type: FETCH_ARTIST_SUCCESS, payload: api_resp.data[0].fullName});
+         })
+         .catch(error => {
+            const err = (error.response)? error.response : {
+               data: {message: `${error.name}: ${error.message}`}, 
+               status: 404,
+               statusText: "Not Found"
+            };
+            console.error(err);
+            dispatch({type: FETCH_ERROR, payload: err});
          })
    };
-   // return dispatch => {
- 
-
-
-   //       .then(post_data => {
-   //          newDetails = {
-   //             ...newDetails,
-   //             ...post_data
-   //          };
-   //          console.log("Retrieving Artist info...");
-
-   //          //GET artist by User ID
-   //          return axios(userToken).get(`/users/${post_data.user_id}`);
-   //          // return axios(userToken).get(`/users/34`);
-   //       })
-   //       .then(api_resp => {
-   //          if (!api_resp.data.data || api_resp.data.data.length === 0) {
-   //             console.log("Failed to retrieve artist!!");
-   //             throw new Error("Artist not found");
-   //          }
-
-   //          console.log("Success!");
-   //          setIsLoading(false);
-   //          newDetails = {
-   //             ...newDetails,
-   //             artist: api_resp.data.data[0].fullName
-   //          };
-   //          setImgDetails(newDetails);
-   //       })
-   //       .catch(problem => {
-   //          setIsLoading(false);
-   //          setError(problem);
-
-   //          // if (problem.message) {
-   //          //    console.error(`Server Error: ${problem.message}`);
-   //          // } else if (problem.response) {
-   //          //    console.error(problem.response);
-   //          // } else {
-   //          //    console.error(problem);
-   //          // }
-   //       })
-   // };
 };
