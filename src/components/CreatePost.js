@@ -51,9 +51,9 @@ function CreatePost(props) {
             }}>
 
             {({values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting}) => (
-                <div className="modal">
-                    <form className="CreatePost" onSubmit={handleSubmit}>
-                        {/* {JSON.stringify(values)} */}
+                <form className="CreatePost" onSubmit={handleSubmit}>
+                    {/* {JSON.stringify(values)} */}
+                    <section className="fieldContainer">
                         <div className="inputContainer">
                             <input type="text" name="title" placeholder="Title (required)"
                                 className={`TextField ${touched.title && errors.title ? "has-error" : null}`}
@@ -83,21 +83,21 @@ function CreatePost(props) {
                         </div>
 
                         <div className="inputContainer">
-                            <textarea rows="5" cols="30" name="details" placeholder="Description" maxLength="150"
+                            <textarea rows="5" cols="30" name="details" placeholder="Description (up to 150 chars)" maxLength="150"
                                 className={`TextField ${touched.details && errors.details ? "has-error" : null}`}
                                 onChange={handleChange} onBlur={handleBlur} value={values.details}>
                             </textarea>
                             <Error touched={touched.details} message={errors.details} />
                         </div>
+                    </section>
 
-                        <div className="buttonContainer">
-                            <button type="submit" disabled={isSubmitting}>Add</button>
-                            <button type="button" id="cancel"
-                                onClick={props.onClose}>Cancel</button>
+                    <div className="buttonContainer">
+                        <button type="submit" disabled={isSubmitting}>Add</button>
+                        <button type="button" id="cancel"
+                            onClick={props.onClose}>Cancel</button>
 
-                        </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             )}
 
 

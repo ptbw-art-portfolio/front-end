@@ -42,9 +42,8 @@ function NavBar() {
       <Link to='/sign-in'>
       <NavIcon className="fas fa-sign-in-alt" title="Sign in/Register"></NavIcon>
       </Link>
+      
     </NavBarMenu>
-
-    
   );
 }
 

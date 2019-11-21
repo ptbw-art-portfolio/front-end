@@ -43,7 +43,7 @@ function App() {
      <div className="mainProgram">
        <section className="top">
          <NavBar />
-         <Route path='/upload' component={AddPostModal} />
+         {/* <Route path='/upload' component={AddPostModal} /> */}
          {/* <Route path='/sign-in' component={} /> */}
  
          <Banner>
