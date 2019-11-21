@@ -3,11 +3,11 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 
 import ArtistGallery from "./ArtistGallery"
-import ImageDetails from "./ImageDetails";
 import NavBar from './NavBar';	import NavBar from './NavBar';
 import AddPostModal from './AddPostModal';
 // import CreatePost from './CreatePost';
 import styled from 'styled-components';
+import ImageDetails from "./ImageDetails";
 
 //action creators
 import { } from "../store/auth/useAuthActions";
