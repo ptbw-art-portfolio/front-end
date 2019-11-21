@@ -1,5 +1,5 @@
 import {axiosWithAuth as axios, setToken} from "../../utils/axiosWithAuth";
-import {LOGIN_START, LOGIN_SUCCESS, LOGIN_ERROR} from "./authTypes";
+import {LOGIN_START, LOGIN_SUCCESS, LOGIN_ERROR, SIGNUP_START, SIGNUP_SUCCESS, SIGNUP_FAIL} from "./authTypes";
 
 export function login (credentials, history) {
    return dispatch => {
@@ -17,3 +17,17 @@ export function login (credentials, history) {
          })
    };
 };
+
+export const register = (newUser) => dispatch => {
+      dispatch({type: SIGNUP_START});
+   console.log('IS WORKING!!!!!!!!!!!')
+      axios()
+         .post("/auth/signup")
+         .then(response => {
+            console.log(response)
+            dispatch({type: SIGNUP_SUCCESS, payload: response.data.user});
+         })
+         .catch(error => {
+            dispatch({type: SIGNUP_FAIL, payload: error.response});
+         })
+   };

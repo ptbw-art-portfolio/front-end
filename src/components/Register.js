@@ -1,13 +1,12 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Form, Field, withFormik, yupToFormErrors } from 'formik';
+import { Form, Field, withFormik} from 'formik';
 import * as yup from 'yup';
-import axios from 'axios';
+import { axiosWithAuth as axios } from '../utils/axiosWithAuth';
+import { register } from '../store/auth/useAuthActions';
+import { connect } from 'react-redux';
 
-// Email: '' (cannot be used twice)
-// Full Name: ''
-// User Name: '' (cannot be used twice)
-// Password: ''
+
 
 function Register ({errors, touched, status}) {
 
@@ -34,15 +33,25 @@ function Register ({errors, touched, status}) {
         </Form>
     )
 }
+// Email: '' (cannot be used twice)
+// Full Name: ''
+// User Name: '' (cannot be used twice)
+// Password: ''
+const mapStateToProps = (state) => {
+    return {
+        ...state.auth
+    }
+}
 
-export default withFormik({
+const RegisterWithFormik = withFormik({
     mapPropsToValues: (values) => {
         return {
             // makes the values set to strings if empty
             fullName: values.fullName || '',
             email: values.email || '', 
             userName: values.userName || '',
-            password: values.password || ''
+            password: values.password || '',
+            register
         }
     }, 
     // Validates the required fields
@@ -51,6 +60,13 @@ export default withFormik({
         email: yup.string().required('Email is Required!'),
         userName: yup.string().required('Username is Required!'),
         password: yup.string().required('Password is Required!')
-    })
-}) (Register);
+    }),
+    handleSubmit: (values, formikBag) => {
+        console.log(register)
+        console.log(values)
+        formikBag.props.register(values);
+    }
+})(Register)
+
+export default connect(mapStateToProps, {register})(RegisterWithFormik);
 
