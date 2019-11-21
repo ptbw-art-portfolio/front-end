@@ -1,72 +1,10 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { Link, Route } from 'react-router-dom';
 import Fade from 'react-reveal/Fade';
 // import './ArtistGallery.css';
 import styled from 'styled-components';
 import { colors } from "./style-utils/variables";
-
-const artists = [
-   {
-      "id": 1,
-      "fullName": "Rob Towe",
-      "username": "robbie",
-      "email": "robtowe@mail.com",
-      "created_at": "2019-11-14 22:47:30",
-      "updated_at": "2019-11-14 22:47:30"
-   },
-   {
-      "id": 2,
-      "fullName": "Rob Towe",
-      "username": "robbies",
-      "email": "robtowe@mails.com",
-      "created_at": "2019-11-14 23:22:43",
-      "updated_at": "2019-11-14 23:22:43"
-   },
-   {
-      "id": 3,
-      "fullName": "Rob Towe",
-      "username": "robbiess",
-      "email": "robtowe@mailss.com",
-      "created_at": "2019-11-14 23:33:19",
-      "updated_at": "2019-11-14 23:33:19"
-   }
-];
-
-const images = [
-   {
-      "id": 1,
-      "title": "title1",
-      "medium": "paint",
-      "image_url": "someURLsdkfjl",
-      "description": "Vivamus suscipit tortor eget felis porttitor volutpat. Curabitur non nulla sit amet nisl tempus convallis quis ac lectus. Nulla quis lorem ut libero malesuada feugiat. Nulla porttitor accumsan tincidunt. Quisque velit nisi, pretium ut lacinia in, elementum id enim.",
-      "likes": 0,
-      "created_at": "2019-11-15T02:50:46.622Z",
-      "updated_at": "2019-11-15T02:50:46.622Z",
-      "user_id": 1
-   },
-   {
-      "id": 2,
-      "title": "title2",
-      "medium": "paint",
-      "image_url": "someURLsdkfjl",
-      "description": "Vivamus suscipit tortor eget felis porttitor volutpat. Curabitur non nulla sit amet nisl tempus convallis quis ac lectus. Nulla quis lorem ut libero malesuada feugiat. Nulla porttitor accumsan tincidunt. Quisque velit nisi, pretium ut lacinia in, elementum id enim.",
-      "likes": 0,
-      "created_at": "2019-11-15T02:54:37.200Z",
-      "updated_at": "2019-11-15T02:54:37.200Z",
-      "user_id": 1
-   },
-   {
-      "id": 3,
-      "title": "title3",
-      "medium": "paint",
-      "image_url": "someURLsdkfjl",
-      "description": "Vivamus suscipit tortor eget felis porttitor volutpat. Curabitur non nulla sit amet nisl tempus convallis quis ac lectus. Nulla quis lorem ut libero malesuada feugiat. Nulla porttitor accumsan tincidunt. Quisque velit nisi, pretium ut lacinia in, elementum id enim.",
-      "likes": 0,
-      "created_at": "2019-11-15T02:55:31.235Z",
-      "updated_at": "2019-11-15T02:55:31.235Z",
-      "user_id": 1
-   }
-];
+import {axiosWithAuth as axios} from "../utils/axiosWithAuth";
 
 const ArtistGallerySection = styled.section`
   margin: auto;
@@ -98,7 +36,7 @@ const ArtistGallerySection = styled.section`
   }
 `;
 
-const ArtistGalleryThumbnail = styled(Link)`
+const ArtistGalleryThumbnail = styled.div`
   margin: .5rem;
   border: 1px solid indigo;
   border-radius: .35rem;
@@ -117,10 +55,9 @@ const ArtistGalleryImage = styled.img`
 `;
 
 const Attribution = styled.div`
+  font-size: 1.6rem;
   width: 100%;
   background: rgba(0, 0, 0, 0.65);
-  color: black;
-  background: magenta;
   position: absolute;
   top: 90%;
   left: 50%;
@@ -139,10 +76,12 @@ const Attribution = styled.div`
 */
 function pasteArtists(artist) {
    return (
-      <ArtistGalleryThumbnail to={`artist/${artist.id}`}>
-         <ArtistGalleryImage src={`https://via.placeholder.com/250/464655/eddfef`} title={`${artist.fullName}'s works`} alt={`${artist.fullName}'s works`} />
-         <Attribution>{artist.fullName}</Attribution>
-      </ArtistGalleryThumbnail>
+      <Link to={`artist/${artist.id}`}>
+         <ArtistGalleryThumbnail>
+            <ArtistGalleryImage src={`https://via.placeholder.com/250/464655/eddfef`} title={`${artist.fullName}'s works`} alt={`${artist.fullName}'s works`} />
+            <Attribution>{artist.fullName}</Attribution>
+         </ArtistGalleryThumbnail>
+      </Link>
    )
 }
 
@@ -161,32 +100,59 @@ function pasteArtists(artist) {
 */
 function pasteImages(image) {
    return (
-      <ArtistGalleryThumbnail to={`posts/${image.id}`}>
-         <ArtistGalleryImage src={`https://via.placeholder.com/250/eddfef/464655`} title={`${image.title}'s works`} alt={`${image.title}'s works`}></ArtistGalleryImage>
-         <Attribution>{`${image.title}: \t${image.medium}`}</Attribution>
-      </ArtistGalleryThumbnail>
+      <Link to={`posts/${image.id}`}>
+         <ArtistGalleryThumbnail>
+            <ArtistGalleryImage src={`https://via.placeholder.com/250/eddfef/464655`} title={`${image.title}'s works`} alt={`${image.title}'s works`}></ArtistGalleryImage>
+            <Attribution>{`${image.title}: \t${image.medium}`}</Attribution>
+         </ArtistGalleryThumbnail>
+      </Link>
    )
 }
 
 function ArtistGallery({ match: { params: { userId } }}) {
-   console.log(`userId: ${userId}`);
+   const [dataArray, setDataArray] = useState();
+   const Transition = (() => {
+      const randNum = Math.round(Math.random() * 4 + 1);
+      
+      switch (randNum) {
+         case 1:
+            return props => <Fade {...props} top big />
+         case 2:
+            return props => <Fade {...props} bottom big />
+         case 3:
+            return props => <Fade {...props} left big />
+         default:
+            return props => <Fade {...props} right big />
+      }
+   })();
    const pasteIt = (typeof userId == "undefined") ? pasteArtists : pasteImages;
+   const renderData = () => {
+      if (!dataArray) {
+         return <p>Loading...</p>
+      }
+      if (dataArray.length === 0) {
+         return <p>No data to display</p>
+      }
+      
+      return dataArray.map(data => <Fade key={data.id} bottom big>{pasteIt(data)}</Fade>)
+   }
 
-   return (
-      <ArtistGallerySection>
-         {artists.map(data => {
-            return (
-               // setTimeout(function() {pasteArtist(artist)}, 1000)
-               // setTimeout(pasteArtist, 1000, artist)
-               // setTimeout(function() {console.log(artist)}, 1000),
-               // console.log("test"),
-               <Fade key={data.id} bottom big>{
-                  pasteIt(data)
-               }</Fade>
-            )
-         })}
-      </ArtistGallerySection>
-   );
+   useEffect(() => {
+      const url = (!userId)? "/users" : `/users/${userId}/posts`;
+
+      axios()
+         .get(url)
+         .then(response => {
+            console.log(response.data);
+            setDataArray(response.data);
+         })
+         .catch(error => {
+            console.error(error.response);
+         })
+   }, []);
+   console.log(`userId: ${userId}`);
+
+   return <ArtistGallerySection>{renderData(pasteIt)}</ArtistGallerySection>;
 }
 
 export default ArtistGallery;
