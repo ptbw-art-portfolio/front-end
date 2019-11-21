@@ -9,17 +9,18 @@ import {login} from "../store/auth/useAuthActions";
 
 const Card = styled.div`
 display: flex;
-width: 35%;
-margin: 0 auto;
+width: 30%;
+margin: 15% 35%;
+position: fixed;
+z-index: 1;
 flex-wrap: wrap;
 flex-direction: column;
-justify-content: center;
+justify-items: center;
 align-items: center;
-background-color: #11a7f7;
+background-color: #f2ecdd;
 border: solid 4px black;
 border-radius: 8px;
 font-weight: 600;
-font-size: 18px;
 box-shadow: 7px 7px 5px; #2F4F4F;
  -moz-box-shadow: 7px 7px 5px #2F4F4F;
  -webkit-box-shadow: 7px 7px 5px #2F4F4F;
@@ -27,15 +28,34 @@ box-shadow: 7px 7px 5px; #2F4F4F;
  `;
 
  const Input = styled(Field)`
-    width: 70%;
+    width: 100%;
     margin: 0 auto;
     margin-bottom: 15px;
  `;
 
  const Button = styled.div`
- width: 50%;
+ width: 100%;
  margin: 0 auto;
  margin-bottom: 15px;
+`;
+
+const Greeting = styled.h1`
+font-size: 2.2rem;
+margin: 20px auto;
+`;
+
+const GreetWrap = styled.div`
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+`;
+
+const LinkWrap = styled.div`
+  width: 100%;
+  margin: 0 auto;
+  margin-bottom: 15px;
 `;
 
 //Connect to Redux store
@@ -57,10 +77,10 @@ function Login({user, isAuthorizing, error, login, history}) {
 
         {/* Start of form */}
         <Form>
-          <div>
-            <h1>
-              Welcome Artist
-            </h1>
+          <GreetWrap>
+              <Greeting>
+                Welcome Artist
+              </Greeting>
             
               <Input
                 variant='outlined'
@@ -71,8 +91,7 @@ function Login({user, isAuthorizing, error, login, history}) {
                 type='email'
                 placeholder='Email'
               />
-            
-            
+
               <Input
                 variant='outlined'
                 required
@@ -83,16 +102,18 @@ function Login({user, isAuthorizing, error, login, history}) {
                 placeholder='Password'
               />
             
-          </div>
+          
           <Button>
           <button onClick={login}>
           
             Log In
           </button>
           </Button>
-          <div>
+
+          <LinkWrap>
             <Link to='/register'>Need to register?</Link>
-          </div>
+          </LinkWrap>
+          </GreetWrap>
         </Form>
       </Card>
   )
@@ -101,16 +122,12 @@ function Login({user, isAuthorizing, error, login, history}) {
 export default connect(mapStateToProps, mapDispatchToProps)(
   withFormik({
     mapPropsToValues: ({ email, password, login, history }) => {
-    // mapPropsToValues: (props) => {
-      // console.log(props)
+
       return {
         email: email || '',
         password: password || '',
         login,
         history
-        // email: props.email || '',
-        // password: props.password || '',
-        // login: props.login
       }
     },
   
