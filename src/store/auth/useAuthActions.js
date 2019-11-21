@@ -1,7 +1,7 @@
 import {axiosWithAuth as axios, setToken} from "../../utils/axiosWithAuth";
 import {LOGIN_START, LOGIN_SUCCESS, LOGIN_ERROR} from "./authTypes";
 
-export function login (credentials) {
+export function login (credentials, history) {
    return dispatch => {
       dispatch({type: LOGIN_START});
    
@@ -10,6 +10,7 @@ export function login (credentials) {
          .then(response => {
             dispatch({type: LOGIN_SUCCESS, payload: response.data.user});
             setToken(response.data.token);
+            history.push("/");
          })
          .catch(error => {
             dispatch({type: LOGIN_ERROR, payload: error.response});
