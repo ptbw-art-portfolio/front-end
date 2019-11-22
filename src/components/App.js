@@ -1,15 +1,10 @@
 import React from 'react';
 import { Route, Link } from 'react-router-dom';
+
 //Components
 import ArtistGallery from "./ArtistGallery"
 import NavBar from './NavBar';
-import AddPostModal from './AddPostModal';
 import styled from 'styled-components';
-
-import Login from "./Login";
-
-//action creators
-import {} from "../store/auth/useAuthActions";
 import ImageDetails from "./ImageDetails";
 
 
@@ -45,13 +40,11 @@ function App() {
       <div className="mainProgram">
          <section className="top">
             <NavBar />
-            <Route path='/upload' component={AddPostModal} />
-            {/* <Route path='/upload' component={AddPostModal} /> */}
-            {/* <Route path='/sign-in' component={} /> */}
+
             <Banner>
                <AppName to="/"><h2>Art Portfolio</h2></AppName>
             </Banner>
-            {/* <CreatePost /> */}
+
             <ArtistSearchForm>
                <ArtistSearchBox type="text" name="search" placeholder="&#x1f50d; Search artists..." />
             </ArtistSearchForm>
