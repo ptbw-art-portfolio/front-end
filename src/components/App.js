@@ -6,6 +6,11 @@ import ArtistGallery from "./ArtistGallery"
 import NavBar from './NavBar';
 import AddPostModal from './AddPostModal';
 import styled from 'styled-components';
+
+import Login from "./Login";
+
+//action creators
+import {} from "../store/auth/useAuthActions";
 import ImageDetails from "./ImageDetails";
 
 const Banner = styled.div`
@@ -47,7 +52,7 @@ function App() {
             <NavBar />
             <Route path='/upload' component={AddPostModal} />
             {/* <Route path='/upload' component={AddPostModal} /> */}
-            {/* <Route path='/sign-in' component={} /> */}
+            {/* <Route path='/sign-in' component={Login} /> */}
 
             <Banner>
                <AppName to="/"><h2>Art Portfolio</h2></AppName>
