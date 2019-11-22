@@ -146,7 +146,7 @@ function Login({user, isAuthorizing, error, login, history}) {
         </Button>
 
         <LinkWrap>
-          <button><Link to='/register'>Register</Link></button>
+          <Link to='/register'><button>Register</button></Link>
         </LinkWrap>
         <LinkWrap>
           <button onClick={clickHandler}>Cancel</button>
