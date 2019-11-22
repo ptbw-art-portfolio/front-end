@@ -1,18 +1,10 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { Link, Route } from 'react-router-dom';
 import Fade from 'react-reveal/Fade';
 // import './ArtistGallery.css';
 import styled from 'styled-components';
-
-const artists = [
-  {username: "leonardo", fullname: "Leonardo Da Vinci", img: "./img/mona_lisa_by_leonardo_da_vinci.jpg"},
-  {username: "vincent", fullname: "Vincent Van Gogh", img: "./img/the_starry_night_by_vincent_van_gogh.jpg"},
-  {username: "rembrandt", fullname: "Rembrandt", img: "./img/the_night_watch_by_rembrandt.jpg"},
-  {username: "gustav", fullname: "Gustav Klimt", img: "./img/the_kiss_by_gustav_klimt.jpg"},
-  {username: "jan", fullname: "Jan Van Eyck", img: "./img/the_arnolfini_portrait_by_jan_van_eyck.jpg"},
-  {username: "johannes", fullname: "Johannes Vermeer", img: "./img/the_girl_with_a_pearl_earring_by_johannes_vermeer.jpg"},
-  {username: "claude", fullname: "Claude Monet", img: "./img/impression,_sunrise_by_claude_monet.jpg"},
-];
+import { colors } from "./style-utils/variables";
+import {axiosWithAuth as axios} from "../utils/axiosWithAuth";
 
 const ArtistGallerySection = styled.section`
   margin: auto;
@@ -63,6 +55,7 @@ const ArtistGalleryImage = styled.img`
 `;
 
 const Attribution = styled.div`
+  font-size: 1.6rem;
   width: 100%;
   background: rgba(0, 0, 0, 0.65);
   position: absolute;
@@ -71,34 +64,95 @@ const Attribution = styled.div`
   transform: translate(-50%, -50%);
 `;
 
-function pasteArtist(artist) {
-  return (
-  <Link to={`/artist/${artist.username}`} key={artist.username}>
-  <Fade bottom big>
-  <ArtistGalleryThumbnail>
-    <ArtistGalleryImage src={require(`${artist.img}`)} title={`${artist.fullname}'s works`} alt={`${artist.fullname}'s works`}></ArtistGalleryImage>
-    <Attribution>{artist.fullname}</Attribution>
-  </ArtistGalleryThumbnail>
-  </Fade>
-  {/* <Route path={`/artist/${artist.username}`} component={} /> */}
-</Link>
-  )
+/*
+{
+   "id": 1,
+   "fullName": "Rob Towe",
+   "username": "robbie",
+   "email": "robtowe@mail.com",
+   "created_at": "2019-11-14 22:47:30",
+   "updated_at": "2019-11-14 22:47:30"
+}
+*/
+function pasteArtists(artist) {
+   return (
+      <Link to={`artist/${artist.id}`}>
+         <ArtistGalleryThumbnail>
+            <ArtistGalleryImage src={`https://via.placeholder.com/250/464655/eddfef`} title={`${artist.fullName}'s works`} alt={`${artist.fullName}'s works`} />
+            <Attribution>{artist.fullName}</Attribution>
+         </ArtistGalleryThumbnail>
+      </Link>
+   )
 }
 
-function ArtistGallery() {
-  return (
-    <ArtistGallerySection>
-      {artists.map(artist => {
-        return (
-          // setTimeout(function() {pasteArtist(artist)}, 1000)
-          // setTimeout(pasteArtist, 1000, artist)
-          setTimeout(function() {console.log(artist)}, 1000),
-          console.log("test"),
-          pasteArtist(artist)
-        )
-      })}
-    </ArtistGallerySection>
-  );
+/*
+{
+   "id": 1,
+   "title": "title1",
+   "medium": "paint",
+   "image_url": "someURLsdkfjl",
+   "description": "Vivamus suscipit tortor eget felis porttitor volutpat. Curabitur non nulla sit amet nisl tempus convallis quis ac lectus. Nulla quis lorem ut libero malesuada feugiat. Nulla porttitor accumsan tincidunt. Quisque velit nisi, pretium ut lacinia in, elementum id enim.",
+   "likes": 0,
+   "created_at": "2019-11-15T02:50:46.622Z",
+   "updated_at": "2019-11-15T02:50:46.622Z",
+   "user_id": 1
+}
+*/
+function pasteImages(image) {
+   return (
+      <Link to={`posts/${image.id}`}>
+         <ArtistGalleryThumbnail>
+            <ArtistGalleryImage src={`https://via.placeholder.com/250/eddfef/464655`} title={`${image.title}'s works`} alt={`${image.title}'s works`}></ArtistGalleryImage>
+            <Attribution>{`${image.title}: \t${image.medium}`}</Attribution>
+         </ArtistGalleryThumbnail>
+      </Link>
+   )
+}
+
+function ArtistGallery({ match: { params: { userId } }}) {
+   const [dataArray, setDataArray] = useState();
+   const Transition = (() => {
+      const randNum = Math.round(Math.random() * 4 + 1);
+      
+      switch (randNum) {
+         case 1:
+            return props => <Fade {...props} top big />
+         case 2:
+            return props => <Fade {...props} bottom big />
+         case 3:
+            return props => <Fade {...props} left big />
+         default:
+            return props => <Fade {...props} right big />
+      }
+   })();
+   const pasteIt = (typeof userId == "undefined") ? pasteArtists : pasteImages;
+   const renderData = () => {
+      if (!dataArray) {
+         return <p>Loading...</p>
+      }
+      if (dataArray.length === 0) {
+         return <p>No data to display</p>
+      }
+      
+      return dataArray.map(data => <Fade key={data.id} bottom big>{pasteIt(data)}</Fade>)
+   }
+
+   useEffect(() => {
+      const url = (!userId)? "/users" : `/users/${userId}/posts`;
+
+      axios()
+         .get(url)
+         .then(response => {
+            console.log(response.data);
+            setDataArray(response.data);
+         })
+         .catch(error => {
+            console.error(error.response);
+         })
+   }, []);
+   console.log(`userId: ${userId}`);
+
+   return <ArtistGallerySection>{renderData(pasteIt)}</ArtistGallerySection>;
 }
 
 export default ArtistGallery;

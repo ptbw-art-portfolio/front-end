@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import AddPostModal from './AddPostModal';
 // import './NavBar.css';
 
 const NavBarMenu = styled.nav`
@@ -10,6 +11,7 @@ const NavBarMenu = styled.nav`
   border: 1px solid red;
   height: 3rem;
   width: 100%;
+  padding-right: 1rem;
 `
 
 const NavIcon = styled.i`
@@ -19,26 +21,25 @@ const NavIcon = styled.i`
   :hover {
     color: gray;
   }
-
-  :nth-child(5) {
-    margin-right: 1rem;
-  }
 `
 
 function NavBar() {
   return (
     <NavBarMenu>
+      
       <Link to='/'>
         <NavIcon className="fas fa-home" title="Home"></NavIcon>
       </Link>
 
       <Link to='/upload'>
-      <NavIcon className="fas fa-plus-circle" title="Upload"></NavIcon>
+        {/* <NavIcon className="fas fa-plus-circle" title="Upload"></NavIcon> */}
+        <AddPostModal />
       </Link>
 
       <Link to='/sign-in'>
       <NavIcon className="fas fa-sign-in-alt" title="Sign in/Register"></NavIcon>
       </Link>
+      
     </NavBarMenu>
   );
 }
