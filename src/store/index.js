@@ -3,10 +3,12 @@ import thunk from "redux-thunk"; //allows our action creators to be HOFs
 
 //reducers
 import auth from "./auth/useReducer";
+import details from "./details/reducer";
 
 //add multiple reducers here
 const rootReducer = combineReducers({
-   auth
+   auth,
+   details
 });
 
 //an array of all the middleware in the application

@@ -1,24 +1,56 @@
-import React, { useState, useEffect } from "react"
+import React, { useEffect } from "react"
 import { connect } from "react-redux";
-import { axiosWithAuth as axios } from "../utils/axiosWithAuth";
+import { getImageDetails } from "../store/details/useActions";
+import { getToken } from "../utils/axiosWithAuth";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faUserCircle} from "@fortawesome/free-solid-svg-icons";
 
 //*** Component Styles ***//
 import styled from "styled-components";
+import {colors, MAX_WIDTH} from "./style-utils/variables";
 import { autoScale, customLayout } from "./style-utils/mixins";
 
-const Wrapper = styled.div`
-   background-color: dodgerblue;
-   
-   img {
-      ${autoScale}
+const StyledArticle = styled.article`
+   .img-wrapper {
+      width: 100%;
+      box-shadow: inset 0 0 20px 4px ${colors.darkText};
+      ${customLayout("center")}
+      
+      @media only screen and (min-width: 768px) {
+         box-shadow: inset 0 0 20px 4px ${colors.darkText};
+         padding: 30px;
+      }
+
+      img {
+         ${autoScale}
+         max-height: 480px;
+      }
    }
 
    .card-wrapper {
-      ${customLayout("space-between", "flex-end")};
+      width: 100%;
+      max-width: ${MAX_WIDTH};
+      margin: 0 auto;
+      padding: 1rem;
+      ${customLayout("flex-start", "flex-start", "column")};
 
       .card-info {
-         width: 70%;
-         background-color: red;
+         & > * {
+            margin-bottom: 1rem;
+         }
+
+         &:last-child {
+            margin: auto auto;
+         }
+
+         .artist {
+            height: 4rem;
+            svg {
+               margin-right: 2rem;
+            }
+
+            ${customLayout("flex-start", "center")}
+         }
       }
 
       .user-controls {
@@ -29,139 +61,61 @@ const Wrapper = styled.div`
    }
 `;
 
-//Connect to Redux store
-const mapStateToProps = state => {
-   return {
-      userToken: state.auth.token
-   };
-};
+function ImageDetails({ isLoading, error, imgDetails, match: { params: { id } }, getImageDetails }) {
+   //Get image details on load or if match changes somehow
+   useEffect(() => getImageDetails(id), []);
 
-function ImageDetails({ userToken, match: { params: { id } } }) {
-   const [isLoading, setIsLoading] = useState(false);
-   const [error, setError] = useState();
-   const [imgDetails, setImgDetails] = useState({
-      id: -1,
-      title: "",
-      medium: "",
-      image_url: "",
-      description: "",
-      likes: "",
-      created_at: "",
-      updated_at: "",
-      user_id: "",
-      artist: ""
-   });
-
-   useEffect(() => {
-      let newDetails = {...imgDetails};
-      setIsLoading(true);
-      console.log(`Retrieveing details for image ID-${id}...`);
-
-      axios(userToken)
-         //GET post by ID
-         .get(`/posts/${id}`)
-         .then(api_resp => {
-            return new Promise((resolve, reject) => {
-               if (!api_resp.data.data) {
-                  console.log("Failed to retrieve post!!");
-                  reject(api_resp.data);
-               } else {
-                  console.log("Success!");
-                  resolve(api_resp.data.data[0]);
-               }
-            });
-         })
-         .then(post_data => {
-            newDetails = {
-               ...newDetails,
-               ...post_data
-            };
-            console.log("Retrieving Artist info...");
-
-            //GET artist by User ID
-            return axios(userToken).get(`/users/${post_data.user_id}`);
-            // return axios(userToken).get(`/users/34`);
-         })
-         .then(api_resp => {
-            if (!api_resp.data.data || api_resp.data.data.length === 0) {
-               console.log("Failed to retrieve artist!!");
-               throw new Error("Artist not found");
-            }
-
-            console.log("Success!");
-            setIsLoading(false);
-            newDetails = {
-               ...newDetails,
-               artist: api_resp.data.data[0].fullName
-            };
-            setImgDetails(newDetails);
-         })
-         .catch(problem => {
-            setIsLoading(false);
-            setError(problem);
-
-            // if (problem.message) {
-            //    console.error(`Server Error: ${problem.message}`);
-            // } else if (problem.response) {
-            //    console.error(problem.response);
-            // } else {
-            //    console.error(problem);
-            // }
-         })
-   }, [id]);
-
-   return <Wrapper>{renderDetails(isLoading, imgDetails, error, userToken)}</Wrapper>;
-}
-
-//render based on error status
-const renderDetails = (isLoading, details, err, userToken) => {
+   const isLoggedIn = (getToken() !== null);
    let innerHTML;
 
    if (isLoading) {
       innerHTML = <p className="spinner">Loading...</p>;
-   } else if (err) {
-      let message;
-
-      if (err.message) {
-         message = `Server Error: ${err.message}`;
-      } else if (err.response) {
-         message = err.response.toString();
-      } else {
-         message = JSON.stringify(err, null, 3);
-      }
-
+   } else if (error) {
+      const message = `Server Error: ${error.data.message} ${error.status}`;
       innerHTML = <p className="error">{message}</p>
    } else {
       innerHTML = (
          <>
-            <img src="https://via.placeholder.com/1600x900" alt="A dove" />
+            <div className="img-wrapper">
+               <img src="https://via.placeholder.com/1600x900" alt="A dove" />
+            </div>
 
             <div className="card-wrapper">
                <div className="card-info">
-                  <h2 className="artist">{details.artist}</h2>
-                  <h2 className="title">{details.title}</h2>
-                  <h4 className="art-medium">{details.medium}</h4>
+                  <div className="artist">
+                     <FontAwesomeIcon icon={faUserCircle} size="3x" />
+                     <h2>{imgDetails.artist}</h2>
+                  </div>
+                  <h2 className="title">{imgDetails.title}</h2>
+                  <h4 className="art-medium">{imgDetails.medium}</h4>
                </div>
                {
-                  (userToken)
-                  ? (
-                     <div className="user-controls">
-                        <p>Edit</p>
-                        <p>Delete</p>
-                     </div>
-                  )
-                  : null
+                  (isLoggedIn)
+                     ? (
+                        <div className="user-controls">
+                           <p>Edit</p>
+                           <p>Delete</p>
+                        </div>
+                     )
+                     : null
                }
+               <p className="description">{imgDetails.description}</p>
             </div>
-            <p className="description">{details.description}</p>
          </>
       );
    }
-   
-   return <article className="content">{innerHTML}</article>;
+
+   return <StyledArticle>{innerHTML}</StyledArticle>;
+}
+
+//Connect to Redux store
+const mapStateToProps = state => {
+   return {
+      ...state.details
+   };
 };
 
-export default connect(mapStateToProps)(ImageDetails);
+export default connect(mapStateToProps, {getImageDetails})(ImageDetails);
 
 
 //GET /posts/:id
