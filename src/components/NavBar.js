@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import AddPostModal from './AddPostModal';
 // import './NavBar.css';
+import Login from './Login'
 
 const NavBarMenu = styled.nav`
   display: flex;
@@ -36,10 +37,10 @@ function NavBar() {
         <AddPostModal />
       </Link>
 
-      <Link to='/sign-in'>
+      {/* <Link to='/sign-in'>
       <NavIcon className="fas fa-sign-in-alt" title="Sign in/Register"></NavIcon>
-      </Link>
-      
+      </Link> */}
+      <Login />
     </NavBarMenu>
   );
 }

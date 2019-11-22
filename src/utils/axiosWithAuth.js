@@ -10,15 +10,6 @@ export function clearToken () {
    localStorage.removeItem("token");
 }
 
-<<<<<<< HEAD
-
-   return axios.create({
-      baseURL: "https://ptbw-art-portfolio.herokuapp.com",
-       headers: {
-           'Content-Type': 'application/json',
-           'Authorization': `${token}`
-       }
-=======
 export const axiosWithAuth = () => {
    return axios.create({
       baseURL: "https://ptbw-art-portfolio.herokuapp.com",
@@ -26,6 +17,5 @@ export const axiosWithAuth = () => {
          'Content-Type': 'application/json',
          'Authorization': getToken()
       }
->>>>>>> master
    })
 }

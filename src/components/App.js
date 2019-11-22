@@ -1,23 +1,13 @@
 import React from 'react';
-<<<<<<< HEAD
-import Colors from "./Colors";
-import { Route } from 'react-router-dom';
-// import './App.css';
-=======
 import { Route, Link } from 'react-router-dom';
 
 //Components
->>>>>>> master
 import ArtistGallery from "./ArtistGallery"
 import NavBar from './NavBar';
 import AddPostModal from './AddPostModal';
 import styled from 'styled-components';
 
-<<<<<<< HEAD
 import Login from "./Login";
-=======
-import Login from './Login';
->>>>>>> master
 
 //action creators
 import {} from "../store/auth/useAuthActions";
@@ -57,31 +47,12 @@ const ArtistSearchBox = styled.input`
 
 function App() {
    return (
-<<<<<<< HEAD
-     <div className="mainProgram">
-       <section className="top">
-         <NavBar />
-         {/* <Route path='/upload' component={} /> */}
-         <Route exact path='/sign-in' component={Login} />
- 
-         <Banner>
-           <AppName>Art Portfolio</AppName>
-         </Banner>
- 
-         <ArtistSearchForm>
-           <ArtistSearchBox type="text" name="search" placeholder="&#x1f50d; Search artists..." />
-         </ArtistSearchForm>
-       </section>
- 
-       <ArtistGallery />
-     </div>
-=======
       <div className="mainProgram">
          <section className="top">
             <NavBar />
             <Route path='/upload' component={AddPostModal} />
             {/* <Route path='/upload' component={AddPostModal} /> */}
-            {/* <Route path='/sign-in' component={} /> */}
+            {/* <Route path='/sign-in' component={Login} /> */}
 
             <Banner>
                <AppName to="/"><h2>Art Portfolio</h2></AppName>
@@ -98,7 +69,6 @@ function App() {
          <Route exact path="/artist/:userId" component={ArtistGallery} />
          <Route exact path="/artist/posts/:id" component={ImageDetails} />
       </div>
->>>>>>> master
    );
 }
 

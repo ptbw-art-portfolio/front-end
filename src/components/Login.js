@@ -1,19 +1,35 @@
-<<<<<<< HEAD
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import { Link } from 'react-router-dom';
 import { Form, Field, withFormik } from 'formik';
 import * as Yup from 'yup';
 import styled from "styled-components";
 import { connect } from "react-redux";
 import {login} from "../store/auth/useAuthActions";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faSignInAlt} from "@fortawesome/free-solid-svg-icons";
 
+
+
+const FormOverlay = styled.div`
+   background: #f26656b2;
+   background: linear-gradient(74deg, #f26656b2 0%, #4b559cb2 100%);
+   z-index: 1;
+   width: 100%;
+   height: 100%;
+   position: fixed;
+   top: 0;
+   left: 0;
+   overflow: auto;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+`;
 
 const Card = styled.div`
+
 display: flex;
-width: 30%;
-margin: 15% 35%;
-position: fixed;
-z-index: 1;
+width: 330px;
+height: 330px;
 flex-wrap: wrap;
 flex-direction: column;
 justify-items: center;
@@ -56,8 +72,20 @@ const GreetWrap = styled.div`
 const LinkWrap = styled.div`
   width: 100%;
   margin: 0 auto;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
+  font-size: 1.4rem;
+  text-decoration: none;
 `;
+
+const NavIcon = styled(FontAwesomeIcon)`
+  margin: .5rem;
+
+  
+
+  :hover {
+    color: gray;
+  }
+`
 
 //Connect to Redux store
 const mapStateToProps = state => {
@@ -71,106 +99,68 @@ const mapDispatchToProps = {
 };
 
 function Login({user, isAuthorizing, error, login, history}) {
-  
+
+  const [cardState, setCardState] = useState(false);
+  const clickHandler = event => {
+    setCardState(!cardState);
+  }
   return (
-     
-      <Card>
+     <>
+     <NavIcon icon={faSignInAlt} size="2x" onClick= { clickHandler }/>
 
-        {/* Start of form */}
-        <Form>
-          <GreetWrap>
-              <Greeting>
-                Welcome Artist
-              </Greeting>
-            
-              <Input
-=======
-import React, { useEffect } from 'react'
-//import { axiosWithAuth as axios } from '../utils/axiosConfig'
-import { Link } from 'react-router-dom'
-import { Form, Field, withFormik } from 'formik'
-import * as Yup from 'yup'
+    {cardState && 
+    <FormOverlay>
+    <Card>
 
-import axios from 'axios';
+      {/* Start of form */}
+      <Form>
+        <GreetWrap>
+            <Greeting>
+              Welcome Artist
+            </Greeting>
+          
+            <Input
+              variant='outlined'
+              required
+              fullWidth
+              label='Name'
+              name='email'
+              type='email'
+              placeholder='Email'
+            />
 
-
-const Login = ({ history, status }) => {
-
-  useEffect(() => {
-    if (status) {
-      axios()
-        .post('/auth/login', status)
-        .then(res => {
-          // console.log(res)
-          localStorage.setItem('token', res.data.token)
-          localStorage.setItem('user_id', res.data.user.id)
-          localStorage.setItem('name', JSON.stringify(res.data.user.name))
-          localStorage.setItem(
-            'fullName',
-            JSON.stringify(res.data.user.fullName),
-          )
-        })
+            <Input
+              variant='outlined'
+              required
+              fullWidth
+              name='password'
+              label='Password'
+              type='password'
+              placeholder='Password'
+            />
+          
         
-        .catch(err => console.log(err))
+        <Button>
+        <button onClick={login}>
+        
+          Log In
+        </button>
+        </Button>
+
+        <LinkWrap>
+          <button><Link to='/register'>Register</Link></button>
+        </LinkWrap>
+        <LinkWrap>
+          <button onClick={clickHandler}>Cancel</button>
+        </LinkWrap>
+        </GreetWrap>
+      </Form>
+    </Card>
+    </FormOverlay>
     }
-  }, [status])
-
-  return (
-    <div>
-      <h1>
-        Welcome Artist
-      </h1>
-      <div>
-
-        {/* Start of form */}
-        <Form>
-          <div>
-            <div>
-              <Field
->>>>>>> master
-                variant='outlined'
-                required
-                fullWidth
-                label='Name'
-<<<<<<< HEAD
-                name='email'
-                type='email'
-                placeholder='Email'
-              />
-
-              <Input
-=======
-                name='name'
-                type='name'
-              />
-            </div>
-            <div>
-              <Field
->>>>>>> master
-                variant='outlined'
-                required
-                fullWidth
-                name='password'
-                label='Password'
-                type='password'
-<<<<<<< HEAD
-                placeholder='Password'
-              />
-            
-          
-          <Button>
-          <button onClick={login}>
-          
-            Log In
-          </button>
-          </Button>
-
-          <LinkWrap>
-            <Link to='/register'>Need to register?</Link>
-          </LinkWrap>
-          </GreetWrap>
-        </Form>
-      </Card>
+    
+     </>
+    
   )
 }
 
@@ -202,42 +192,3 @@ export default connect(mapStateToProps, mapDispatchToProps)(
   })(Login)
 
 ) 
-=======
-              />
-            </div>
-          </div>
-          <button onClick={null}>
-            Log In
-          </button>
-          <div>
-            <Link to='/register'>Need to register?</Link>
-            <Link to='/reset'>Forgot Password?</Link>
-          </div>
-        </Form>
-      </div>
-    </div>
-  )
-}
-
-export default withFormik({
-  mapPropsToValues: ({ name, password }) => {
-    return {
-      name: name || '',
-      password: password || '',
-    }
-  },
-
-  // Validation
-  validationSchema: Yup.object().shape({
-    name: Yup.string()
-      .required('Please provide your name.'),
-    password: Yup.string().required('Please provide your password.'),
-  }),
-
-  // handleSubmit
-  handleSubmit(values, { setStatus }) {
-    // console.log(values)
-    setStatus(values)
-  },
-})(Login)
->>>>>>> master

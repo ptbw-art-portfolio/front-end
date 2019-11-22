@@ -6,7 +6,6 @@ import {Provider} from "react-redux";
 //Components
 import GlobalStyle from "./components/style-utils/GlobalStyle";
 import App from './components/App';
-import { BrowserRouter as Router } from "react-router-dom";
 
 //Redux store
 import store from "./store";
