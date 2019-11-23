@@ -122,7 +122,6 @@ function Login({user, isAuthorizing, error, login, history}) {
             <Input
               variant='outlined'
               required
-              fullWidth
               label='Name'
               name='email'
               type='email'
@@ -132,7 +131,6 @@ function Login({user, isAuthorizing, error, login, history}) {
             <Input
               variant='outlined'
               required
-              fullWidth
               name='password'
               label='Password'
               type='password'

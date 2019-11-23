@@ -2,23 +2,13 @@ import React, { useState, useEffect} from 'react';
 import styled from 'styled-components';
 import { Formik, Field, withFormik, Form } from 'formik';
 import * as Yup from 'yup';
+import FormOverlay from './style-utils/FormOverlay';
 // import './CreatePost.css';
 import { axiosWithAuth as axios } from '../utils/axiosWithAuth';
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faPlusCircle} from "@fortawesome/free-solid-svg-icons";
 
 const Wrapper = styled.div`
-        background: #f26656b2;
-        background: linear-gradient(74deg, #f26656b2 0%, #4b559cb2 100%);
-        z-index: 1;
-        width: 100%;
-        height: 100%;
-        position: fixed;
-        top: 0;
-        left: 0;
-        overflow: auto;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
     .CreatePost {
         border-radius: .75rem;
         width: 32rem;
@@ -75,6 +65,13 @@ const Wrapper = styled.div`
         color: crimson;
     }
 `
+const NavIcon = styled(FontAwesomeIcon)`
+  margin: .5rem;
+
+  :hover {
+    color: gray;
+  }
+`
 const validationSchema = Yup.object().shape({
     title: Yup.string()
         .min(1, "Must have at least one letter")
@@ -115,8 +112,11 @@ function CreatePost({touched, errors, status}) {
         console.log("Exit toggled: ", showModal);
     }
 
-    return (
-        <Wrapper className="formOverlay">
+    return ( <>
+        <NavIcon title="Upload" icon={faPlusCircle} size="2x" onClick={exitHandler} />
+
+        {showModal && 
+        <FormOverlay> <Wrapper>
         <Form className="CreatePost">
             {/* {JSON.stringify(values)} */}
             <section className="fieldContainer">
@@ -169,7 +169,9 @@ function CreatePost({touched, errors, status}) {
             </div>
         </Form>
         </Wrapper>
-    );
+        </FormOverlay>
+        }
+    </>);
 }
 
 const CreatePostWithFormik = withFormik({

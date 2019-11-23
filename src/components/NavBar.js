@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Login from './Login'
+import CreatePost from './CreatePost';
 
 const NavBarMenu = styled.nav`
   display: flex;
@@ -30,11 +31,7 @@ function NavBar() {
         <NavIcon className="fas fa-home" title="Home"></NavIcon>
       </Link>
 
-      <Link to='/upload'>
-        <NavIcon className="fas fa-plus-circle" title="Upload"></NavIcon>
-        {/* <AddPostModal /> */}
-        {/* <CreatePostWithFormik /> */}
-      </Link>
+    <CreatePost />
 
       {/* <Link to='/sign-in'>
       <NavIcon className="fas fa-sign-in-alt" title="Sign in/Register"></NavIcon>
