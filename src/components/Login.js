@@ -7,23 +7,24 @@ import { connect } from "react-redux";
 import {login} from "../store/auth/useAuthActions";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSignInAlt} from "@fortawesome/free-solid-svg-icons";
+import FormOverlay from './style-utils/FormOverlay';
 
 
 
-const FormOverlay = styled.div`
-   background: #f26656b2;
-   background: linear-gradient(74deg, #f26656b2 0%, #4b559cb2 100%);
-   z-index: 1;
-   width: 100%;
-   height: 100%;
-   position: fixed;
-   top: 0;
-   left: 0;
-   overflow: auto;
-   display: flex;
-   justify-content: center;
-   align-items: center;
-`;
+// const FormOverlay = styled.div`
+//    background: #f26656b2;
+//    background: linear-gradient(74deg, #f26656b2 0%, #4b559cb2 100%);
+//    z-index: 1;
+//    width: 100%;
+//    height: 100%;
+//    position: fixed;
+//    top: 0;
+//    left: 0;
+//    overflow: auto;
+//    display: flex;
+//    justify-content: center;
+//    align-items: center;
+// `;
 
 const Card = styled.div`
 
@@ -69,7 +70,7 @@ const GreetWrap = styled.div`
   justify-content: center;
 `;
 
-const LinkWrap = styled.div`
+const LinkWrap = styled(Link)`
   width: 100%;
   margin: 0 auto;
   margin-bottom: 20px;
@@ -145,12 +146,10 @@ function Login({user, isAuthorizing, error, login, history}) {
         </button>
         </Button>
 
-        <LinkWrap>
-          <Link to='/register'><button>Register</button></Link>
+        <LinkWrap to='/register'>
+          <button onClick={clickHandler}>Register</button>
         </LinkWrap>
-        <LinkWrap>
           <button onClick={clickHandler}>Cancel</button>
-        </LinkWrap>
         </GreetWrap>
       </Form>
     </Card>

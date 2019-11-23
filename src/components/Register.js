@@ -5,32 +5,35 @@ import * as yup from 'yup';
 import { axiosWithAuth as axios } from '../utils/axiosWithAuth';
 import { register } from '../store/auth/useAuthActions';
 import { connect } from 'react-redux';
+import FormOverlay from './style-utils/FormOverlay'
 
 
 
 function Register ({errors, touched, status}) {
 
     return (
-        <Form>
-            {/* Error handling above each Field */}
+        <FormOverlay>
+            <Form>
+                {/* Error handling above each Field */}
 
-            {touched.fullName && errors.fullName && <p className='error'>{errors.fullName}</p>}
-            <Field type='text' name='fullName' placeholder='Full Name' />
+                {touched.fullName && errors.fullName && <p className='error'>{errors.fullName}</p>}
+                <Field type='text' name='fullName' placeholder='Full Name' />
 
-            {touched.email && errors.email && <p className='error'>{errors.email}</p>}
-            <Field type='text' name='email' placeholder='Email' />
-            
-            {touched.userName && errors.userName && <p className='error'>{errors.userName}</p>}
-            <Field type='text' name='userName' placeholder='Username' />
-            
-            {touched.password && errors.password && <p className='error'>{errors.password} </p>}
-            <Field type='password' name='password' placeholder='Password' />
-            
-            {/* Signs User up */}
-            <button type='submit'>Register</button>
-            {/* Closes the motol */}
-            <button>Close</button>
-        </Form>
+                {touched.email && errors.email && <p className='error'>{errors.email}</p>}
+                <Field type='text' name='email' placeholder='Email' />
+                
+                {touched.userName && errors.userName && <p className='error'>{errors.userName}</p>}
+                <Field type='text' name='userName' placeholder='Username' />
+                
+                {touched.password && errors.password && <p className='error'>{errors.password} </p>}
+                <Field type='password' name='password' placeholder='Password' />
+                
+                {/* Signs User up */}
+                <button type='submit'>Register</button>
+                {/* Closes the motol */}
+                <button>Close</button>
+            </Form>
+        </FormOverlay>
     )
 }
 // Email: '' (cannot be used twice)
