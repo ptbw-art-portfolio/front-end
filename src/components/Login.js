@@ -38,7 +38,7 @@ background-color: #f2ecdd;
 border: solid 4px black;
 border-radius: 8px;
 font-weight: 600;
-box-shadow: 7px 7px 5px; #2F4F4F;
+box-shadow: 7px 7px 5px #2F4F4F;
  -moz-box-shadow: 7px 7px 5px #2F4F4F;
  -webkit-box-shadow: 7px 7px 5px #2F4F4F;
  -khtml-box-shadow: 7px 7px 7px #2F4F4F;
