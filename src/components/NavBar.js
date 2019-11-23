@@ -1,8 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import AddPostModal from './AddPostModal';
-// import './NavBar.css';
 import Login from './Login'
 
 const NavBarMenu = styled.nav`
@@ -33,8 +31,9 @@ function NavBar() {
       </Link>
 
       <Link to='/upload'>
-        {/* <NavIcon className="fas fa-plus-circle" title="Upload"></NavIcon> */}
-        <AddPostModal />
+        <NavIcon className="fas fa-plus-circle" title="Upload"></NavIcon>
+        {/* <AddPostModal /> */}
+        {/* <CreatePostWithFormik /> */}
       </Link>
 
       {/* <Link to='/sign-in'>

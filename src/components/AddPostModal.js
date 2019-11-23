@@ -2,7 +2,7 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
-import CreatePost from './CreatePost';
+import CreatePostWithFormik from './CreatePost';
 import styled from 'styled-components';
 
 const NavIcon = styled.i`
@@ -35,7 +35,7 @@ export default function AddPostModal() {
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
-                <CreatePost onClose={handleClose} />
+                {/* <CreatePostWithFormik onClose={handleClose} /> */}
                 {/* <DialogContent  >
                     <Button >Edit</Button>
                     <Button >Delete</Button>
