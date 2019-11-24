@@ -1,10 +1,13 @@
 import React, { useEffect } from "react"
 import { connect } from "react-redux";
+import {Route, Link, useRouteMatch} from "react-router-dom";
 import { getImageDetails } from "../store/details/useActions";
 import { getToken } from "../utils/axiosWithAuth";
 import Spinner from "./Spinner";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faUserCircle, faEdit, faTrashAlt} from "@fortawesome/free-solid-svg-icons";
+import FormOverlay from "./style-utils/FormOverlay";
+import EditForm from "./EditForm";
 
 //*** TEST ONLY Component ***/
 import TestLogin from "./TestLogin";
@@ -65,7 +68,7 @@ const StyledArticle = styled.article`
                width: 7rem;
                ${customLayout("space-between")}
 
-               button {
+               a, button {
                   background: transparent;
                   border: none;
                   color: ${colors.darkText};
@@ -92,6 +95,7 @@ function ImageDetails({ isLoading, error, imgDetails, match: { params: { id } },
    //Get image details on load or if match changes somehow
    useEffect(() => getImageDetails(id), []);
 
+   const {path, url} = useRouteMatch();
    const isLoggedIn = (getToken() !== null);
    let innerHTML;
 
@@ -104,9 +108,8 @@ function ImageDetails({ isLoading, error, imgDetails, match: { params: { id } },
       innerHTML = (
          <>
             <div className="img-wrapper">
-               {/* <img src="https://via.placeholder.com/1600x900/464655/d5cfe1" alt="A dove" /> */}
-               <a href="https://cdn.pixabay.com/photo/2017/05/07/08/56/pancakes-2291908_960_720.jpg" target="_blank">
-                  <img src="https://cdn.pixabay.com/photo/2017/05/07/08/56/pancakes-2291908_960_720.jpg" alt="Raspberry Pancakes" />
+               <a href={imgDetails.image_url || "#"} target="_blank">
+                  <img src={imgDetails.image_url || "https://via.placeholder.com/1600x900/464655/d5cfe1"} alt="artwork" />
                </a>
             </div>
 
@@ -119,7 +122,7 @@ function ImageDetails({ isLoading, error, imgDetails, match: { params: { id } },
                      </div>
                      {(isLoggedIn) && 
                      <div className="user-controls">
-                        <button><FontAwesomeIcon title="Edit Post" icon={faEdit} /></button>
+                        <Link to={`${url}/update`}><FontAwesomeIcon title="Edit Post" icon={faEdit} /></Link>
                         <button><FontAwesomeIcon title="Delete Post" icon={faTrashAlt} /></button>
                      </div>}
                   </div>
@@ -129,6 +132,9 @@ function ImageDetails({ isLoading, error, imgDetails, match: { params: { id } },
                <p className="description">{imgDetails.description}</p>
             </div>
 
+            <Route exact path={`${path}/update`} render={props => (
+               <FormOverlay><EditForm {...props} /></FormOverlay>
+            )} />
             {/*Will remove this when the login component is finished */}
             <TestLogin />
          </>

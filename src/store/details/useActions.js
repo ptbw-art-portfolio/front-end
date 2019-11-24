@@ -1,5 +1,11 @@
 import {axiosWithAuth as axios} from "../../utils/axiosWithAuth";
-import { FETCH_DETAILS_START, FETCH_DETAILS_SUCCESS, FETCH_ARTIST_SUCCESS, FETCH_ERROR } from "./actionTypes";
+import { 
+   FETCH_DETAILS_START, 
+   FETCH_DETAILS_SUCCESS, 
+   FETCH_ARTIST_SUCCESS, 
+   FETCH_ERROR,
+   UPDATE_DETAILS_START
+} from "./actionTypes";
 
 export function getImageDetails (id) {
    return dispatch => {
@@ -38,3 +44,27 @@ export function getImageDetails (id) {
          })
    };
 };
+
+export function updateImageDetails ({user_id, ...details}) {
+   return dispatch => {
+      dispatch({type: UPDATE_DETAILS_START});
+
+      axios()
+         .put("/posts/:id", )
+         .then()
+         .catch()
+   };
+}
+
+/*
+created_at: "2019-11-22T00:47:26.885Z"
+date: null
+description: "Vivamus suscipit tortor eget felis porttitor volutpat. Curabitur non nulla sit amet nisl tempus convallis quis ac lectus. Nulla quis lorem ut libero malesuada feugiat. Nulla porttitor accumsan tincidunt. Quisque velit nisi, pretium ut lacinia in, elementum id enim."
+id: 1
+image_url: "https://images.unsplash.com/photo-1499781350541-7783f6c6a0c8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1115&q=80"
+likes: 0
+medium: "paint"
+title: "Lady With Eye"
+updated_at: "2019-11-22T00:47:26.885Z"
+user_id: 1
+*/

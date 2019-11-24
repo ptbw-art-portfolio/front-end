@@ -51,7 +51,7 @@ function App() {
          </section>
          <Route exact path="/" component={ArtistGallery} />
          <Route exact path="/artist/:userId" component={ArtistGallery} />
-         <Route exact path="/artist/posts/:id" component={ImageDetails} />
+         <Route path="/artist/posts/:id" component={ImageDetails} />
       </div>
    );
 }
