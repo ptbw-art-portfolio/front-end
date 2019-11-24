@@ -11,18 +11,19 @@ const palette = ["#464655", "#94958b", "#b7b6c1", "#d5cfe1", "#eddfef"];
 const alpha = "b2";
 
 //*** Named Colors ***//
-const attentionColor = palette[2];
+const attentionColor = palette[0];
 const attentionBorder = palette[1];
-const subtleBorder = palette[4];
-const bgColor = palette[3];
+const subtleBorder = palette[2];
+const bgColor = palette[2];
+const accent = palette[4];
 const darkText = palette[0];
 const lightText = palette[3];
 const headerColor = darkText;
 const bodyColor = darkText;
-const overlayBackground = [palette[0]+alpha, palette[1]+alpha, palette[4]+alpha];
+const overlayBackground = [accent+alpha, attentionBorder+alpha, attentionColor+alpha];
 const formBackground = darkText;
-const link = lightText;
-const linkVisited = lightText;
+const link = darkText;
+const linkVisited = darkText;
 const linkHover = subtleBorder;
 
 export const colors = {
@@ -30,6 +31,7 @@ export const colors = {
    attentionBorder,
    subtleBorder,
    bgColor,
+   accent,
    darkText,
    lightText,
    headerColor,
