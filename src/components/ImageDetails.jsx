@@ -6,6 +6,9 @@ import Spinner from "./Spinner";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faUserCircle, faEdit, faTrashAlt} from "@fortawesome/free-solid-svg-icons";
 
+//*** TEST ONLY Component ***/
+import TestLogin from "./TestLogin";
+
 //*** Component Styles ***//
 import styled from "styled-components";
 import {colors, MAX_WIDTH} from "./style-utils/variables";
@@ -59,8 +62,26 @@ const StyledArticle = styled.article`
             }
 
             .user-controls {
-               width: 5rem;
+               width: 7rem;
                ${customLayout("space-between")}
+
+               button {
+                  background: transparent;
+                  border: none;
+                  color: ${colors.darkText};
+                  cursor: pointer;
+                  outline: transparent;
+                  padding: unset;
+
+                  &:hover {
+                     color: ${colors.linkHover};
+                     background: transparent;
+                  }
+
+                  & > * {
+                     font-size: 2.5rem;
+                  }
+               }
             }
          }
       }
@@ -72,19 +93,6 @@ function ImageDetails({ isLoading, error, imgDetails, match: { params: { id } },
    useEffect(() => getImageDetails(id), []);
 
    const isLoggedIn = (getToken() !== null);
-   const url = (() => {
-      const randNum = Math.floor(Math.random() * 6);
-      const urlCache = [
-         "http://www.artofmtg.com/wp-content/uploads/2015/02/Liliana-Defiant-Necromancer-MtG-Art.jpg",
-         "http://www.artofmtg.com/wp-content/uploads/2014/06/Liliana-of-the-Veil-MtG-Planeswalker-Art.jpg",
-         "http://www.artofmtg.com/wp-content/uploads/2016/09/Chandra-Torch-of-Defiance-Kaladesh-MtG-Art.jpg",
-         "http://www.artofmtg.com/wp-content/uploads/2014/06/Chandra-the-Firebrand-MtG-Planeswalker-Art.jpg",
-         "http://www.artofmtg.com/wp-content/uploads/2017/06/Nissa%E2%80%99s-Encouragement-Hour-of-Devastation-MtG-Art.jpg",
-         "http://www.artofmtg.com/wp-content/uploads/2019/04/Nissa-Who-Shakes-the-World-War-of-the-Spark-Arts.jpg"
-      ];
-
-      return urlCache[randNum];
-   })();
    let innerHTML;
 
    if (isLoading) {
@@ -97,12 +105,9 @@ function ImageDetails({ isLoading, error, imgDetails, match: { params: { id } },
          <>
             <div className="img-wrapper">
                {/* <img src="https://via.placeholder.com/1600x900/464655/d5cfe1" alt="A dove" /> */}
-               <a href={url} target="_blank">
-                  <img src={url} alt="MTG Art" />
-               </a>
-               {/* <a href="https://cdn.pixabay.com/photo/2017/05/07/08/56/pancakes-2291908_960_720.jpg" target="_blank">
+               <a href="https://cdn.pixabay.com/photo/2017/05/07/08/56/pancakes-2291908_960_720.jpg" target="_blank">
                   <img src="https://cdn.pixabay.com/photo/2017/05/07/08/56/pancakes-2291908_960_720.jpg" alt="Raspberry Pancakes" />
-               </a> */}
+               </a>
             </div>
 
             <div className="card-wrapper">
@@ -114,8 +119,8 @@ function ImageDetails({ isLoading, error, imgDetails, match: { params: { id } },
                      </div>
                      {(isLoggedIn) && 
                      <div className="user-controls">
-                        <FontAwesomeIcon title="Edit Post" icon={faEdit} size="2x" />
-                        <FontAwesomeIcon title="Delete Post" icon={faTrashAlt} size="2x" />
+                        <button><FontAwesomeIcon title="Edit Post" icon={faEdit} /></button>
+                        <button><FontAwesomeIcon title="Delete Post" icon={faTrashAlt} /></button>
                      </div>}
                   </div>
                   <h2 className="title">{imgDetails.title}</h2>
@@ -123,6 +128,9 @@ function ImageDetails({ isLoading, error, imgDetails, match: { params: { id } },
                </div>
                <p className="description">{imgDetails.description}</p>
             </div>
+
+            {/*Will remove this when the login component is finished */}
+            <TestLogin />
          </>
       );
    }
