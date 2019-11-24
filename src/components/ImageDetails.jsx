@@ -72,11 +72,22 @@ function ImageDetails({ isLoading, error, imgDetails, match: { params: { id } },
    useEffect(() => getImageDetails(id), []);
 
    const isLoggedIn = (getToken() !== null);
-   // const isLoggedIn = (true);
+   const url = (() => {
+      const randNum = Math.floor(Math.random() * 6);
+      const urlCache = [
+         "http://www.artofmtg.com/wp-content/uploads/2015/02/Liliana-Defiant-Necromancer-MtG-Art.jpg",
+         "http://www.artofmtg.com/wp-content/uploads/2014/06/Liliana-of-the-Veil-MtG-Planeswalker-Art.jpg",
+         "http://www.artofmtg.com/wp-content/uploads/2016/09/Chandra-Torch-of-Defiance-Kaladesh-MtG-Art.jpg",
+         "http://www.artofmtg.com/wp-content/uploads/2014/06/Chandra-the-Firebrand-MtG-Planeswalker-Art.jpg",
+         "http://www.artofmtg.com/wp-content/uploads/2017/06/Nissa%E2%80%99s-Encouragement-Hour-of-Devastation-MtG-Art.jpg",
+         "http://www.artofmtg.com/wp-content/uploads/2019/04/Nissa-Who-Shakes-the-World-War-of-the-Spark-Arts.jpg"
+      ];
+
+      return urlCache[randNum];
+   })();
    let innerHTML;
 
    if (isLoading) {
-   // if (true) {
       innerHTML = <Spinner />
    } else if (error) {
       const message = `Server Error: ${error.data.message} ${error.status}`;
@@ -85,7 +96,13 @@ function ImageDetails({ isLoading, error, imgDetails, match: { params: { id } },
       innerHTML = (
          <>
             <div className="img-wrapper">
-               <img src="https://via.placeholder.com/1600x900" alt="A dove" />
+               {/* <img src="https://via.placeholder.com/1600x900/464655/d5cfe1" alt="A dove" /> */}
+               <a href={url} target="_blank">
+                  <img src={url} alt="MTG Art" />
+               </a>
+               {/* <a href="https://cdn.pixabay.com/photo/2017/05/07/08/56/pancakes-2291908_960_720.jpg" target="_blank">
+                  <img src="https://cdn.pixabay.com/photo/2017/05/07/08/56/pancakes-2291908_960_720.jpg" alt="Raspberry Pancakes" />
+               </a> */}
             </div>
 
             <div className="card-wrapper">
