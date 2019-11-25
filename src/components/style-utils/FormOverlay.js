@@ -6,10 +6,10 @@ export default styled.div`
    background: ${colors.overlayBackground[1]};
    background: radial-gradient(
       circle, 
-      ${colors.overlayBackground[2]} 0%, 
+      ${colors.overlayBackground[0]} 0%, 
       ${colors.overlayBackground[1]} 65%, 
       ${colors.overlayBackground[1]} 95%, 
-      ${colors.overlayBackground[0]} 100%
+      ${colors.overlayBackground[2]} 100%
    );
    z-index: 1;
    width: 100%;
