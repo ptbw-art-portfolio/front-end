@@ -9,9 +9,6 @@ import {faUserCircle, faEdit, faTrashAlt} from "@fortawesome/free-solid-svg-icon
 import FormOverlay from "./style-utils/FormOverlay";
 import EditForm from "./EditForm";
 
-//*** TEST ONLY Component ***/
-import TestLogin from "./TestLogin";
-
 //*** Component Styles ***//
 import styled from "styled-components";
 import {colors, MAX_WIDTH} from "./style-utils/variables";
@@ -135,8 +132,6 @@ function ImageDetails({ isLoading, error, imgDetails, match: { params: { id } },
             <Route exact path={`${path}/update`} render={props => (
                <FormOverlay><EditForm {...props} /></FormOverlay>
             )} />
-            {/*Will remove this when the login component is finished */}
-            <TestLogin />
          </>
       );
    }
