@@ -71,14 +71,17 @@ export default (state = INITIAL_STATE, action) => {
             ...state,
             error: NO_ERROR,
             imgDetails: {
-               ...state.imgDetails
+               ...state.imgDetails,
+               ...action.payload
             },
             isUpdating: false
          };
       case UPDATE_DETAILS_ERROR:
          return {
             ...state,
-            ...imgDetails,
+            imgDetails: {
+               ...state.imgDetails
+            },
             isUpdating: false,
             error: action.payload
          };

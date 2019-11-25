@@ -129,6 +129,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(withFormik({
       description: props.description || "",
       user_id: props.user_id,
       image_id: props.id,
+      history: props.history,
       updateImageDetails: props.updateImageDetails
    }),
    validationSchema: yup.object().shape({
@@ -137,8 +138,8 @@ export default connect(mapStateToProps, mapDispatchToProps)(withFormik({
       medium: yup.string().required("From which medium is the artwork created?"),
       description: yup.string().required("Please enter a description")
    }),
-   handleSubmit: ({updateImageDetails, ...newDetails}) => {
-      console.log("Update post!");
+   handleSubmit: ({updateImageDetails, history, ...newDetails}) => {
       updateImageDetails(newDetails);
+      history.goBack();
    }
 })(EditForm));

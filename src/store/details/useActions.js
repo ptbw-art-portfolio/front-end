@@ -52,10 +52,9 @@ export function updateImageDetails ({image_id, ...details}) {
       dispatch({type: UPDATE_DETAILS_START});
 
       axios()
-         .put("/posts/", details)
+         .put(`/posts/${image_id}`, details)
          .then(response => {
-            dispatch({type: UPDATE_DETAILS_SUCCESS});
-            console.log(response.data);
+            dispatch({type: UPDATE_DETAILS_SUCCESS, payload: details});
          })
          .catch(error => {
             console.error(error.response);
