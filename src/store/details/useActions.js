@@ -4,7 +4,9 @@ import {
    FETCH_DETAILS_SUCCESS, 
    FETCH_ARTIST_SUCCESS, 
    FETCH_ERROR,
-   UPDATE_DETAILS_START
+   UPDATE_DETAILS_START,
+   UPDATE_DETAILS_SUCCESS,
+   UPDATE_DETAILS_ERROR
 } from "./actionTypes";
 
 export function getImageDetails (id) {
@@ -45,14 +47,20 @@ export function getImageDetails (id) {
    };
 };
 
-export function updateImageDetails ({user_id, ...details}) {
+export function updateImageDetails ({image_id, ...details}) {
    return dispatch => {
       dispatch({type: UPDATE_DETAILS_START});
 
       axios()
-         .put("/posts/:id", )
-         .then()
-         .catch()
+         .put("/posts/", details)
+         .then(response => {
+            dispatch({type: UPDATE_DETAILS_SUCCESS});
+            console.log(response.data);
+         })
+         .catch(error => {
+            console.error(error.response);
+            dispatch({type: UPDATE_DETAILS_ERROR, payload: error.response});
+         })
    };
 }
 
