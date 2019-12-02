@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route, Link } from 'react-router-dom';
+import Register from './Register'
 
 //Components
 import ArtistGallery from "./ArtistGallery"
@@ -52,6 +53,7 @@ function App() {
          <Route exact path="/" component={ArtistGallery} />
          <Route exact path="/artist/:userId" component={ArtistGallery} />
          <Route path="/artist/posts/:id" component={ImageDetails} />
+         <Route exact path='/register' component={Register} />
       </div>
    );
 }
