@@ -1,10 +1,10 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState } from 'react';
+import {connect} from "react-redux";
 import styled from 'styled-components';
-import { Formik, Field, withFormik, Form } from 'formik';
+import { Field, withFormik, Form } from 'formik';
 import * as Yup from 'yup';
+import {axiosWithAuth as axios} from "../utils/axiosWithAuth";
 import FormOverlay from './style-utils/FormOverlay';
-// import './CreatePost.css';
-import { axiosWithAuth as axios } from '../utils/axiosWithAuth';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPlusCircle} from "@fortawesome/free-solid-svg-icons";
 
@@ -12,7 +12,7 @@ const Wrapper = styled.div`
     .CreatePost {
         border-radius: .75rem;
         width: 32rem;
-        height: 35rem
+        height: 35rem;
         padding-top: 3rem;
         padding-bottom: 5rem;
         text-align: center;
@@ -174,8 +174,23 @@ function CreatePost({touched, errors, status}) {
     </>);
 }
 
+const mapStateToProps = state => {
+   return {
+      ...state.auth
+   };
+};
+
 const CreatePostWithFormik = withFormik({
     mapPropsToValues(values) {
+       /*
+      {
+         "title": "title6",
+         "medium": "paint",
+         "image_url": "someURLsdkfjl",
+         "description": "Vivamus suscipit tortor eget felis porttitor volutpat. Curabitur non nulla sit amet nisl tempus convallis quis ac lectus. Nulla quis lorem ut libero malesuada feugiat. Nulla porttitor accumsan tincidunt. Quisque velit nisi, pretium ut lacinia in, elementum id enim.",
+         "user_id": 1
+      }
+       */
         return{
             title: values.title || "", 
             date: values.date || "", 
@@ -206,7 +221,13 @@ const CreatePostWithFormik = withFormik({
             .min(0, "Please enter details or statement about piece")
             .max(150, "Must be shorter than 150 letters"),
             // .required("Please enter details or statement about piece"),
-    })
+    }),
+    handleSubmit: values => {
+      axios()
+         .post("/posts", )
+         .then()
+         .get()
+    }
 })(CreatePost)
 
-export default CreatePostWithFormik;
+export default connect(mapStateToProps, {})(CreatePostWithFormik);
