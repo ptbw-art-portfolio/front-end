@@ -64,8 +64,10 @@ const LinkWrap = styled(Link)`
 function Register ({errors, touched, status}) {
 
     const [cardState, setCardState] = useState(false);
+
     const clickHandler = event => {
-        setCardState(!cardState);
+        console.log('ClickHandler is working')
+        setCardState(!cardState); 
     }
 
     return (
@@ -84,8 +86,8 @@ function Register ({errors, touched, status}) {
                         {touched.email && errors.email && <p className='error'>{errors.email}</p>}
                         <Input type='text' name='email' placeholder='Email' />
                         
-                        {touched.userName && errors.userName && <p className='error'>{errors.userName}</p>}
-                        <Input type='text' name='userName' placeholder='Username' />
+                        {touched.username && errors.username && <p className='error'>{errors.username}</p>}
+                        <Input type='text' name='username' placeholder='Username' />
                         
                         {touched.password && errors.password && <p className='error'>{errors.password} </p>}
                         <Input type='password' name='password' placeholder='Password' />
@@ -123,7 +125,7 @@ const RegisterWithFormik = withFormik({
             // makes the values set to strings if empty
             fullName: values.fullName || '',
             email: values.email || '', 
-            userName: values.userName || '',
+            username: values.username || '',
             password: values.password || '',
             register
         }
@@ -132,12 +134,12 @@ const RegisterWithFormik = withFormik({
     validationSchema: yup.object().shape({
         fullName: yup.string().required('Full Name is Required!'),
         email: yup.string().required('Email is Required!'),
-        userName: yup.string().required('Username is Required!'),
+        username: yup.string().required('Username is Required!'),
         password: yup.string().required('Password is Required!')
     }),
     handleSubmit: (values, formikBag) => {
-        console.log(register)
-        console.log(values)
+        console.log('register', register)
+        console.log("values", values)
         formikBag.props.register(values);
     }
 })(Register)
