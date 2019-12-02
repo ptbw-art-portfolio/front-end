@@ -99,7 +99,7 @@ const mapDispatchToProps = {
   login
 };
 
-function Login({user, isAuthorizing, error, login, history}) {
+function Login({user, isAuthorizing, error, login}) {
 
   const [cardState, setCardState] = useState(false);
   const clickHandler = event => {
@@ -140,7 +140,7 @@ function Login({user, isAuthorizing, error, login, history}) {
           
         
         <Button>
-        <button onClick={login}>
+        <button type="submit">
         
           Log In
         </button>
@@ -163,13 +163,12 @@ function Login({user, isAuthorizing, error, login, history}) {
 
 export default connect(mapStateToProps, mapDispatchToProps)(
   withFormik({
-    mapPropsToValues: ({ email, password, login, history }) => {
+    mapPropsToValues: ({ email, password, login }) => {
 
       return {
         email: email || '',
         password: password || '',
-        login,
-        history
+        login
       }
     },
   
@@ -181,10 +180,10 @@ export default connect(mapStateToProps, mapDispatchToProps)(
     }),
   
     // handleSubmit
-    handleSubmit({ email, password, login, history }) {
+    handleSubmit({ email, password, login }) {
     // handleSubmit(props) {
       console.log({ email, password })
-      login({ email, password }, history)
+      login({ email, password });
     },
   })(Login)
 

@@ -4,8 +4,11 @@ const NO_ERRORS = null;
 export const INITIAL_STATE = {
    user: {
       id: -1,
-      name: "",
       fullName: "",
+      created_at: "",
+      email: "",
+      updated_at: "",
+      username: ""
    },
    isAuthorizing: false,
    error: NO_ERRORS,
