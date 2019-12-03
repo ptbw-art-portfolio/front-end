@@ -75,14 +75,37 @@ const NavIcon = styled(FontAwesomeIcon)`
   }
 `
 
-// const Error = ({ touched, message}) => {
-//     if (!touched) {
-//         return <div className="form-message invalid">&nbsp;</div>;
-//     }
-//     if (message) {
-//         return <div className="form-message invalid">{message}</div>;
-//     }
-//     return <div className="form-message valid">Thank you!</div>;
+// const validationSchema = Yup.object().shape({	
+//    title: Yup.string()	
+//        .min(1, "Must have at least one letter")	
+//        .max(30, "Must be shorter than 30 letters")	
+//        .required("Please enter a name"),	
+//    date: Yup.date()	
+//        .min('01/01/1900', "Date must be after 01/01/1900")	
+//        .max(new Date(), "Date cannot be after today")	
+//        .required("Please enter date piece was created"),	
+//    medium: Yup.string()	
+//        .min(1, "Must have at least one letter")	
+//        .max(30, "Must be shorter than 30 letters")	
+//        .required("Please enter the medium used to create piece"),	
+//    link: Yup.string().url()	
+//        .min(1, "Must have at least one letter")	
+//        .max(100, "Must be shorter than 100 letters")	
+//        .required("Please enter a valid URL"),	
+//    details: Yup.string()	
+//        .min(0, "Please enter details or statement about piece")	
+//        .max(150, "Must be shorter than 150 letters")	
+//        .required("Please enter details or statement about piece"),	
+// });	
+
+// const Error = ({ touched, message}) => {	
+//    if (!touched) {	
+//        return <div className="form-message invalid">&nbsp;</div>;	
+//    }	
+//    if (message) {	
+//        return <div className="form-message invalid">{message}</div>;	
+//    }	
+//    return <div className="form-message valid">Thank you!</div>;	
 // };
 
 function CreatePost({touched, errors}) {

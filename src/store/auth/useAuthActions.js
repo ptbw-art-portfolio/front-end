@@ -27,7 +27,7 @@ export function autoLogin () {
    };
 };
 
-export function login (credentials, history) {
+export function login (credentials) {
    return dispatch => {
       dispatch({type: LOGIN_START});
    
@@ -35,9 +35,7 @@ export function login (credentials, history) {
          .post("/auth/login", credentials)
          .then(response => {
             dispatch({type: LOGIN_SUCCESS, payload: response.data.user});
-            // setToken(response.data.token);
             setUserData(response.data);
-            if (history && history.goBack) history.goBack();
          })
          .catch(error => {
             dispatch({type: LOGIN_ERROR, payload: error.response});

@@ -104,6 +104,7 @@ function ImageDetails({ isLoading, error, imgDetails, user_id, match: { params: 
 
    const {path, url} = useRouteMatch();
    const [isLoggedIn, setIsLoggedIn] = useState(user_id && user_id > -1);
+   const POST_DELETED = -404;
    let innerHTML;
 
    if (isLoading) {
@@ -111,7 +112,7 @@ function ImageDetails({ isLoading, error, imgDetails, user_id, match: { params: 
    } else if (error) {
       const message = `Server Error: ${error.data.message} ${error.status}`;
       innerHTML = <p className="error">{message}</p>
-   } else if (imgDetails.id === -404){
+   } else if (imgDetails.id === POST_DELETED){
       history.goBack()
    } else {
       innerHTML = (
