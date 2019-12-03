@@ -6,7 +6,8 @@ import {
    FETCH_ERROR,
    UPDATE_DETAILS_START,
    UPDATE_DETAILS_SUCCESS,
-   UPDATE_DETAILS_ERROR
+   UPDATE_DETAILS_ERROR,
+   DELETE
 } from "./actionTypes";
 
 export function getImageDetails (id) {
@@ -61,6 +62,23 @@ export function updateImageDetails ({image_id, ...details}) {
             dispatch({type: UPDATE_DETAILS_ERROR, payload: error.response});
          })
    };
+}
+
+export function deletePost (history, id) {
+      return dispatch => {
+         console.log('HISTORY!!!!!!!!!!!', history)
+         axios().delete(`/posts/${id}`)
+         .then(response => {
+            console.log(response.data)
+            dispatch({type: DELETE, payload: response});
+            if (history && history.goBack) history.goBack();
+            console.log('HISTORY too!!!!!!!', history)
+         })
+         .catch(error => {
+            console.error(error.response);
+            dispatch({type: UPDATE_DETAILS_ERROR, payload: error.response});
+         })
+      }
 }
 
 /*
