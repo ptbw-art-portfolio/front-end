@@ -93,9 +93,7 @@ export default (state = INITIAL_STATE, action) => {
             error: action.payload
          };
       case DELETE: 
-         return {
-            INITIAL_STATE
-         }
+         return INITIAL_STATE;
       default:
          return state;
    }

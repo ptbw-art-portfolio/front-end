@@ -1,14 +1,13 @@
 import React, { useEffect } from "react"
 import { connect } from "react-redux";
 import {Route, Link, useRouteMatch} from "react-router-dom";
-import { getImageDetails } from "../store/details/useActions";
+import { getImageDetails, deletePost } from "../store/details/useActions";
 import { getToken } from "../utils/axiosWithAuth";
 import Spinner from "./Spinner";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faUserCircle, faEdit, faTrashAlt} from "@fortawesome/free-solid-svg-icons";
 import FormOverlay from "./style-utils/FormOverlay";
 import EditForm from "./EditForm";
-import { deletePost } from '../store/details/useActions';
 
 //*** Component Styles ***//
 import styled from "styled-components";
