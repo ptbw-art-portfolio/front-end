@@ -61,7 +61,7 @@ const LinkWrap = styled(Link)`
 
 
 
-function Register ({errors, touched, status}) {
+function Register ({errors, touched, history}) {
 
     const [cardState, setCardState] = useState(false);
 
@@ -120,16 +120,18 @@ const mapStateToProps = (state) => {
 }
 
 const RegisterWithFormik = withFormik({
-    mapPropsToValues: (values) => {
+    mapPropsToValues: (props) => {
         return {
             // makes the values set to strings if empty
-            fullName: values.fullName || '',
-            email: values.email || '', 
-            username: values.username || '',
-            password: values.password || '',
+            fullName: props.fullName || '',
+            email: props.email || '', 
+            username: props.username || '',
+            password: props.password || '',
+            history: props.history,
+
             register
         }
-    }, 
+    },  
     // Validates the required fields
     validationSchema: yup.object().shape({
         fullName: yup.string().required('Full Name is Required!'),
@@ -137,10 +139,12 @@ const RegisterWithFormik = withFormik({
         username: yup.string().required('Username is Required!'),
         password: yup.string().required('Password is Required!')
     }),
-    handleSubmit: (values, formikBag) => {
+
+    handleSubmit: ({history, ...values}, formikBag) => {
         console.log('register', register)
         console.log("values", values)
-        formikBag.props.register(values);
+        formikBag.props.register(values, history);
+
     }
 })(Register)
 
