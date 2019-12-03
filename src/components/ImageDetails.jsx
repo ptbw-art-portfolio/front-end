@@ -8,6 +8,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faUserCircle, faEdit, faTrashAlt} from "@fortawesome/free-solid-svg-icons";
 import FormOverlay from "./style-utils/FormOverlay";
 import EditForm from "./EditForm";
+import { deletePost } from '../store/details/useActions';
 
 //*** Component Styles ***//
 import styled from "styled-components";
@@ -88,7 +89,7 @@ const StyledArticle = styled.article`
    }
 `;
 
-function ImageDetails({ isLoading, error, imgDetails, match: { params: { id } }, getImageDetails }) {
+function ImageDetails({ isLoading, error, imgDetails, match: { params: { id } }, getImageDetails, deletePost, history }) {
    //Get image details on load or if match changes somehow
    useEffect(() => getImageDetails(id), []);
 
@@ -101,6 +102,8 @@ function ImageDetails({ isLoading, error, imgDetails, match: { params: { id } },
    } else if (error) {
       const message = `Server Error: ${error.data.message} ${error.status}`;
       innerHTML = <p className="error">{message}</p>
+   } else if (imgDetails.id < 0){
+      history.goBack()
    } else {
       innerHTML = (
          <>
@@ -120,7 +123,7 @@ function ImageDetails({ isLoading, error, imgDetails, match: { params: { id } },
                      {(isLoggedIn) && 
                      <div className="user-controls">
                         <Link to={`${url}/update`}><FontAwesomeIcon title="Edit Post" icon={faEdit} /></Link>
-                        <button><FontAwesomeIcon title="Delete Post" icon={faTrashAlt} /></button>
+                        <button onClick={() => deletePost(history, id)}><FontAwesomeIcon title="Delete Post" icon={faTrashAlt} /></button>
                      </div>}
                   </div>
                   <h2 className="title">{imgDetails.title}</h2>
@@ -139,4 +142,4 @@ function ImageDetails({ isLoading, error, imgDetails, match: { params: { id } },
    return <StyledArticle>{innerHTML}</StyledArticle>;
 }
 
-export default connect(state => ({...state.details}), {getImageDetails})(ImageDetails);
+export default connect(state => ({...state.details}), {getImageDetails, deletePost})(ImageDetails);
