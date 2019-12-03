@@ -5,7 +5,8 @@ import {
    FETCH_ERROR,
    UPDATE_DETAILS_START,
    UPDATE_DETAILS_SUCCESS,
-   UPDATE_DETAILS_ERROR
+   UPDATE_DETAILS_ERROR,
+   DELETE
 } from "./actionTypes";
 
 const NO_ERROR = null;
@@ -91,6 +92,10 @@ export default (state = INITIAL_STATE, action) => {
             isLoading: false,
             error: action.payload
          };
+      case DELETE: 
+         return {
+            INITIAL_STATE
+         }
       default:
          return state;
    }
