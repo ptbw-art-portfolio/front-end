@@ -99,19 +99,25 @@ const mapDispatchToProps = {
   login
 };
 
-function Login({user, submitForm, resetForm}) {
+function LoginForm({user, error, submitForm, resetForm}) {
    useEffect(() => {
       if (isFormOpen) {
          resetForm();
-         setIsFormOpen(false);
-         setIsSubmitting(false);
+         setFormOpen(false);
+         setSubmitting(false);
       }
-   }, [user.id, resetForm]);
 
-  const [isFormOpen, setIsFormOpen] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+      if (error) {
+         setSubmitting(false);
+         console.error(error);
+      }
+   }, [user.id, error, resetForm]);
+
+  const [isFormOpen, setFormOpen] = useState(false);
+  const [isSubmitting, setSubmitting] = useState(false);
   const clickHandler = event => {
-    setIsFormOpen(!isFormOpen);
+     resetForm();
+     setFormOpen(!isFormOpen);
   }
 
   return (
@@ -127,10 +133,7 @@ function Login({user, submitForm, resetForm}) {
     <Card>
 
       {/* Start of form */}
-      <Form onSubmit={() => {
-         setIsSubmitting(true);
-         submitForm();
-      }}>
+      <Form>
         <GreetWrap>
             <Greeting>
               Welcome Artist
@@ -157,7 +160,10 @@ function Login({user, submitForm, resetForm}) {
         <Button>
          {(isSubmitting)
             ? <button type="submit" disabled><FontAwesomeIcon icon={faSpinner} size="1x" /></button>
-            : <button type="submit">Log In</button>
+            : <button type="submit" onClick={() => {
+               setSubmitting(true);
+               submitForm();
+            }}>Log In</button>
          }
         </Button>
 
@@ -194,11 +200,11 @@ export default connect(mapStateToProps, mapDispatchToProps)(
       }),
    
       // handleSubmit
-      handleSubmit({ email, password, login }) {
+      handleSubmit: ({ email, password, login }) => {
       // handleSubmit(props) {
          console.log("Login using...");
          console.log({ email, password })
          login({ email, password })
       },
-   })(Login)
+   })(LoginForm)
 ) 
