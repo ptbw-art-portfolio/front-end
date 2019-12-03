@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import { Form, Field, withFormik } from 'formik';
 import * as Yup from 'yup';
@@ -6,7 +6,7 @@ import styled from "styled-components";
 import { connect } from "react-redux";
 import {login} from "../store/auth/useAuthActions";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faSignInAlt} from "@fortawesome/free-solid-svg-icons";
+import {faSignInAlt, faSignOutAlt, faSpinner} from "@fortawesome/free-solid-svg-icons";
 import FormOverlay from './style-utils/FormOverlay';
 
 
@@ -99,15 +99,28 @@ const mapDispatchToProps = {
   login
 };
 
-function Login({user, isAuthorizing, error, login, history}) {
+function Login({user, resetForm}) {
+   useEffect(() => {
+      if (cardState) {
+         resetForm();
+         setCardState(false);
+         setIsSubmitting(false);
+      }
+   }, [user.id]);
 
   const [cardState, setCardState] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const clickHandler = event => {
     setCardState(!cardState);
   }
+
   return (
      <>
-     <NavIcon icon={faSignInAlt} size="2x" onClick= { clickHandler }/>
+      {(user.id === -1)
+         ? <NavIcon title="Sign In" icon={faSignInAlt} size="2x" onClick= { clickHandler }/>
+         : <NavIcon title="Sign Out" icon={faSignOutAlt} size="2x" />
+      }
+     
 
     {cardState && 
     <FormOverlay>
@@ -138,12 +151,11 @@ function Login({user, isAuthorizing, error, login, history}) {
               placeholder='Password'
             />
           
-        
         <Button>
-        <button onClick={login}>
-        
-          Log In
-        </button>
+         {(isSubmitting)
+            ? <button type="submit" disabled><FontAwesomeIcon icon={faSpinner} size="1x" /></button>
+            : <button type="submit">Log In</button>
+         }
         </Button>
 
         <LinkWrap to='/register'>
@@ -162,30 +174,27 @@ function Login({user, isAuthorizing, error, login, history}) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(
-  withFormik({
-    mapPropsToValues: ({ email, password, login, history }) => {
-
-      return {
-        email: email || '',
-        password: password || '',
-        login,
-        history
-      }
-    },
-  
-    // Validation
-    validationSchema: Yup.object().shape({
-      email: Yup.string()
-        .required('Please provide your email.'),
-      password: Yup.string().required('Please provide your password.'),
-    }),
-  
-    // handleSubmit
-    handleSubmit({ email, password, login, history }) {
-    // handleSubmit(props) {
-      console.log({ email, password })
-      login({ email, password }, history)
-    },
-  })(Login)
-
+   withFormik({
+      mapPropsToValues: ({ email, password, login }) => {
+         return {
+            email: email || '',
+            password: password || '',
+            login
+         }
+      },
+   
+      // Validation
+      validationSchema: Yup.object().shape({
+         email: Yup.string()
+         .required('Please provide your email.'),
+         password: Yup.string().required('Please provide your password.'),
+      }),
+   
+      // handleSubmit
+      handleSubmit({ email, password, login }) {
+      // handleSubmit(props) {
+         console.log({ email, password })
+         login({ email, password })
+      },
+   })(Login)
 ) 
