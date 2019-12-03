@@ -1,4 +1,4 @@
-import {axiosWithAuth as axios, setToken, setUserData} from "../../utils/axiosWithAuth";
+import {axiosWithAuth as axios, setUserData} from "../../utils/axiosWithAuth";
 import {LOGIN_START, LOGIN_SUCCESS, LOGIN_ERROR, SIGNUP_START, SIGNUP_SUCCESS, SIGNUP_FAIL} from "./authTypes";
 
 export function login (credentials, history) {

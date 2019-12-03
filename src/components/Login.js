@@ -99,19 +99,19 @@ const mapDispatchToProps = {
   login
 };
 
-function Login({user, resetForm}) {
+function Login({user, submitForm, resetForm}) {
    useEffect(() => {
-      if (cardState) {
+      if (isFormOpen) {
          resetForm();
-         setCardState(false);
+         setIsFormOpen(false);
          setIsSubmitting(false);
       }
-   }, [user.id]);
+   }, [user.id, resetForm]);
 
-  const [cardState, setCardState] = useState(false);
+  const [isFormOpen, setIsFormOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const clickHandler = event => {
-    setCardState(!cardState);
+    setIsFormOpen(!isFormOpen);
   }
 
   return (
@@ -122,12 +122,15 @@ function Login({user, resetForm}) {
       }
      
 
-    {cardState && 
+    {isFormOpen && 
     <FormOverlay>
     <Card>
 
       {/* Start of form */}
-      <Form>
+      <Form onSubmit={() => {
+         setIsSubmitting(true);
+         submitForm();
+      }}>
         <GreetWrap>
             <Greeting>
               Welcome Artist
@@ -193,6 +196,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(
       // handleSubmit
       handleSubmit({ email, password, login }) {
       // handleSubmit(props) {
+         console.log("Login using...");
          console.log({ email, password })
          login({ email, password })
       },

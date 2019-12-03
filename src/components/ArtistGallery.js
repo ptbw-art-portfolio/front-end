@@ -1,9 +1,7 @@
 import React, {useState, useEffect} from 'react';
-import { Link, Route } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Fade from 'react-reveal/Fade';
-// import './ArtistGallery.css';
 import styled from 'styled-components';
-import { colors } from "./style-utils/variables";
 import {axiosWithAuth as axios} from "../utils/axiosWithAuth";
 
 const ArtistGallerySection = styled.section`
@@ -111,20 +109,6 @@ function pasteImages(image) {
 
 function ArtistGallery({ match: { params: { userId } }}) {
    const [dataArray, setDataArray] = useState();
-   const Transition = (() => {
-      const randNum = Math.round(Math.random() * 4 + 1);
-      
-      switch (randNum) {
-         case 1:
-            return props => <Fade {...props} top big />
-         case 2:
-            return props => <Fade {...props} bottom big />
-         case 3:
-            return props => <Fade {...props} left big />
-         default:
-            return props => <Fade {...props} right big />
-      }
-   })();
    const pasteIt = (typeof userId == "undefined") ? pasteArtists : pasteImages;
    const renderData = () => {
       if (!dataArray) {
@@ -139,18 +123,17 @@ function ArtistGallery({ match: { params: { userId } }}) {
 
    useEffect(() => {
       const url = (!userId)? "/users" : `/users/${userId}/posts`;
+      console.log("ArtistGallery 1st render -- URL: ", url);
 
       axios()
          .get(url)
          .then(response => {
-            console.log(response.data);
             setDataArray(response.data);
          })
          .catch(error => {
             console.error(error.response);
          })
-   }, []);
-   console.log(`userId: ${userId}`);
+   }, [userId]);
 
    return <ArtistGallerySection>{renderData(pasteIt)}</ArtistGallerySection>;
 }

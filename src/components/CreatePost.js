@@ -75,15 +75,15 @@ const NavIcon = styled(FontAwesomeIcon)`
   }
 `
 
-const Error = ({ touched, message}) => {
-    if (!touched) {
-        return <div className="form-message invalid">&nbsp;</div>;
-    }
-    if (message) {
-        return <div className="form-message invalid">{message}</div>;
-    }
-    return <div className="form-message valid">Thank you!</div>;
-};
+// const Error = ({ touched, message}) => {
+//     if (!touched) {
+//         return <div className="form-message invalid">&nbsp;</div>;
+//     }
+//     if (message) {
+//         return <div className="form-message invalid">{message}</div>;
+//     }
+//     return <div className="form-message valid">Thank you!</div>;
+// };
 
 function CreatePost({touched, errors}) {
     const [showModal, setShowModal] = useState(false);
@@ -92,7 +92,7 @@ function CreatePost({touched, errors}) {
         console.log("Exit toggled: ", showModal);
     }
 
-    console.log(errors);
+   //  console.log(errors);
 
     return ( <>
         <NavIcon title="Upload" icon={faPlusCircle} size="2x" onClick={exitHandler} />

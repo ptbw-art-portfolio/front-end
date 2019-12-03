@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react"
 import { connect } from "react-redux";
 import {Route, Link, useRouteMatch} from "react-router-dom";
 import { getImageDetails, deletePost, clearDetails } from "../store/details/useActions";
-import { getToken } from "../utils/axiosWithAuth";
 import Spinner from "./Spinner";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faUserCircle, faEdit, faTrashAlt} from "@fortawesome/free-solid-svg-icons";
@@ -97,7 +96,7 @@ function ImageDetails({ isLoading, error, imgDetails, user_id, match: { params: 
          console.log("dispatch Clear Details...");
          clearDetails();
       };
-   }, []);
+   }, [id, clearDetails, getImageDetails]);
 
    useEffect(() => {
       setIsLoggedIn(user_id && user_id > -1);
@@ -119,7 +118,7 @@ function ImageDetails({ isLoading, error, imgDetails, user_id, match: { params: 
          <>
             <div className="img-wrapper">
                {imgDetails.image_url &&
-               <a href={imgDetails.image_url || "#"} target="_blank">
+               <a href={imgDetails.image_url || "#"} target="_blank" rel="noopener noreferrer">
                   <img src={imgDetails.image_url} alt="artwork" />
                </a>}
             </div>
