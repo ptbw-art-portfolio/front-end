@@ -1,4 +1,4 @@
-import {axiosWithAuth as axios, setToken} from "../../utils/axiosWithAuth";
+import {axiosWithAuth as axios, setToken, setUserData} from "../../utils/axiosWithAuth";
 import {LOGIN_START, LOGIN_SUCCESS, LOGIN_ERROR, SIGNUP_START, SIGNUP_SUCCESS, SIGNUP_FAIL} from "./authTypes";
 
 export function login (credentials, history) {
@@ -9,8 +9,9 @@ export function login (credentials, history) {
          .post("/auth/login", credentials)
          .then(response => {
             dispatch({type: LOGIN_SUCCESS, payload: response.data.user});
-            setToken(response.data.token);
-            history.push("/");
+            // setToken(response.data.token);
+            setUserData(response.data);
+            if (history && history.goBack) history.goBack();
          })
          .catch(error => {
             dispatch({type: LOGIN_ERROR, payload: error.response});
