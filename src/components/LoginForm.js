@@ -4,7 +4,7 @@ import { Form, Field, withFormik } from 'formik';
 import * as Yup from 'yup';
 import styled from "styled-components";
 import { connect } from "react-redux";
-import {login} from "../store/auth/useAuthActions";
+import {autoLogin, login} from "../store/auth/useAuthActions";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSignInAlt, faSignOutAlt, faSpinner} from "@fortawesome/free-solid-svg-icons";
 import FormOverlay from './style-utils/FormOverlay';
@@ -96,10 +96,13 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-  login
+   autoLogin,
+   login
 };
 
-function LoginForm({user, error, submitForm, resetForm}) {
+function LoginForm({user, error, submitForm, resetForm, autoLogin}) {
+   useEffect(autoLogin, []);
+
    useEffect(() => {
       if (isFormOpen) {
          resetForm();

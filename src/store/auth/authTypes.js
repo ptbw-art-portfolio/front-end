@@ -1,5 +1,6 @@
 export const LOGIN_START = "AUTH_START";
 export const LOGIN_SUCCESS = "AUTH_SUCCESS";
+export const LOGIN_END = "LOGIN_END";
 export const LOGIN_ERROR = "AUTH_ERROR";
 
 export const SIGNUP_START = 'SIGNUP_START';

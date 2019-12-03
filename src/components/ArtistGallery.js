@@ -123,7 +123,6 @@ function ArtistGallery({ match: { params: { userId } }}) {
 
    useEffect(() => {
       const url = (!userId)? "/users" : `/users/${userId}/posts`;
-      console.log("ArtistGallery 1st render -- URL: ", url);
 
       axios()
          .get(url)

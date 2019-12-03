@@ -1,4 +1,4 @@
-import { LOGIN_START, LOGIN_SUCCESS, LOGIN_ERROR, SIGNUP_START, SIGNUP_SUCCESS, SIGNUP_FAIL } from "./authTypes";
+import { LOGIN_START, LOGIN_SUCCESS, LOGIN_END, LOGIN_ERROR, SIGNUP_START, SIGNUP_SUCCESS, SIGNUP_FAIL } from "./authTypes";
 
 const NO_ERRORS = null;
 export const INITIAL_STATE = {
@@ -26,6 +26,15 @@ export default (state = INITIAL_STATE, action) => {
          return {
             ...state,
             user: action.payload,
+            isAuthorizing: false,
+            error: NO_ERRORS
+         };
+      case LOGIN_END:
+         return {
+            ...state,
+            user: {
+               ...state.user
+            },
             isAuthorizing: false,
             error: NO_ERRORS
          };
