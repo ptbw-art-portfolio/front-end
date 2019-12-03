@@ -1,5 +1,8 @@
 import {axiosWithAuth as axios} from "../../utils/axiosWithAuth";
 import { 
+   CREATE_DETAILS_START,
+   CREATE_DETAILS_SUCCESS,
+   CREATE_DETAILS_ERROR,
    FETCH_DETAILS_START, 
    FETCH_DETAILS_SUCCESS, 
    FETCH_ARTIST_SUCCESS, 
@@ -7,7 +10,8 @@ import {
    UPDATE_DETAILS_START,
    UPDATE_DETAILS_SUCCESS,
    UPDATE_DETAILS_ERROR,
-   DELETE
+   DELETE,
+   
 } from "./actionTypes";
 
 export function getImageDetails (id) {
@@ -60,6 +64,22 @@ export function updateImageDetails ({image_id, ...details}) {
          .catch(error => {
             console.error(error.response);
             dispatch({type: UPDATE_DETAILS_ERROR, payload: error.response});
+         })
+   };
+}
+
+export function createPost (details) {
+   return dispatch => {
+      dispatch({type: CREATE_DETAILS_START});
+
+      axios()
+         .put("/posts", details)
+         .then(response => {
+            dispatch({type: CREATE_DETAILS_SUCCESS, payload: details});
+         })
+         .catch(error => {
+            console.error(error.response);
+            dispatch({type: CREATE_DETAILS_ERROR, payload: error.response});
          })
    };
 }
