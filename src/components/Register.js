@@ -120,13 +120,14 @@ const mapStateToProps = (state) => {
 }
 
 const RegisterWithFormik = withFormik({
-    mapPropsToValues: (values) => {
+    mapPropsToValues: (props) => {
         return {
             // makes the values set to strings if empty
-            fullName: values.fullName || '',
-            email: values.email || '', 
-            username: values.username || '',
-            password: values.password || '',
+            fullName: props.fullName || '',
+            email: props.email || '', 
+            username: props.username || '',
+            password: props.password || '',
+            history: props.history,
             register
         }
     }, 
@@ -137,10 +138,10 @@ const RegisterWithFormik = withFormik({
         username: yup.string().required('Username is Required!'),
         password: yup.string().required('Password is Required!')
     }),
-    handleSubmit: (values, formikBag) => {
+    handleSubmit: ({history, ...values}, formikBag) => {
         console.log('register', register)
         console.log("values", values)
-        formikBag.props.register(values);
+        formikBag.props.register(values, history);
     }
 })(Register)
 

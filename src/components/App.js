@@ -53,6 +53,7 @@ function App() {
          <Route exact path="/" component={ArtistGallery} />
          <Route exact path="/artist/:userId" component={ArtistGallery} />
          <Route path="/artist/posts/:id" component={ImageDetails} />
+         <Route exact path="/login" component={NewLogin} />
          <Route exact path='/register' component={Register} />
       </div>
    );

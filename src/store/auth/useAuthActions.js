@@ -46,17 +46,19 @@ export function login (credentials, closeForm) {
    };
 };
 
-export const register = (newUser) => dispatch => {
-      dispatch({type: SIGNUP_START});
+export const register = (newUser, history) => dispatch => {
+   dispatch({type: SIGNUP_START});
    console.log('IS WORKING!!!!!!!!!!!')
-      axios()
-         .post("/auth/signup", newUser)
-         .then(response => {
-            console.log(response)
-            dispatch({type: SIGNUP_SUCCESS, payload: response.data.user});
-         })
-         .catch(error => {
-            console.log(error.response)
-            dispatch({type: SIGNUP_FAIL, payload: error.response});
-         })
-   };
+   axios()
+      .post("/auth/signup", newUser)
+      .then(response => {
+         console.log(response)
+         dispatch({type: SIGNUP_SUCCESS, payload: response.data.user});
+
+         if (history && history.goBack) history.goBack();
+      })
+      .catch(error => {
+         console.log(error.response)
+         dispatch({type: SIGNUP_FAIL, payload: error.response});
+      })
+};
