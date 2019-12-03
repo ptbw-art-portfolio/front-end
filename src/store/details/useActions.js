@@ -10,9 +10,17 @@ import {
    UPDATE_DETAILS_START,
    UPDATE_DETAILS_SUCCESS,
    UPDATE_DETAILS_ERROR,
+   CLEAR_DETAILS,
    DELETE,
    
 } from "./actionTypes";
+
+export function clearDetails () {
+   return dispatch => {
+      console.log("Clearing previous image details");
+      dispatch({type: CLEAR_DETAILS});
+   };
+};
 
 export function getImageDetails (id) {
    return dispatch => {
