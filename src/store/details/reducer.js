@@ -6,6 +6,7 @@ import {
    UPDATE_DETAILS_START,
    UPDATE_DETAILS_SUCCESS,
    UPDATE_DETAILS_ERROR,
+   CLEAR_DETAILS,
    DELETE
 } from "./actionTypes";
 
@@ -22,6 +23,7 @@ const NO_DETAILS = {
    user_id: "",
    artist: ""
 };
+const POST_DELETED = -404;
 const INITIAL_STATE = {
    isLoading: false,
    isUpdating: false,
@@ -92,10 +94,13 @@ export default (state = INITIAL_STATE, action) => {
             isLoading: false,
             error: action.payload
          };
+      case CLEAR_DETAILS:
+         return INITIAL_STATE;
       case DELETE: 
          return {
-            INITIAL_STATE
-         }
+            ...INITIAL_STATE,
+            id: POST_DELETED
+         };
       default:
          return state;
    }

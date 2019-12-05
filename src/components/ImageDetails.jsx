@@ -1,14 +1,12 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { connect } from "react-redux";
 import {Route, Link, useRouteMatch} from "react-router-dom";
-import { getImageDetails } from "../store/details/useActions";
-import { getToken } from "../utils/axiosWithAuth";
+import { getImageDetails, deletePost, clearDetails } from "../store/details/useActions";
 import Spinner from "./Spinner";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faUserCircle, faEdit, faTrashAlt} from "@fortawesome/free-solid-svg-icons";
 import FormOverlay from "./style-utils/FormOverlay";
 import EditForm from "./EditForm";
-import { deletePost } from '../store/details/useActions';
 
 //*** Component Styles ***//
 import styled from "styled-components";
@@ -89,12 +87,24 @@ const StyledArticle = styled.article`
    }
 `;
 
-function ImageDetails({ isLoading, error, imgDetails, match: { params: { id } }, getImageDetails, deletePost, history }) {
+function ImageDetails({ isLoading, error, imgDetails, user_id, match: { params: { id } }, getImageDetails, deletePost, clearDetails, history }) {
    //Get image details on load or if match changes somehow
-   useEffect(() => getImageDetails(id), []);
+   useEffect(() => {
+      getImageDetails(id);
+
+      return () => {
+         console.log("dispatch Clear Details...");
+         clearDetails();
+      };
+   }, [id, clearDetails, getImageDetails]);
+
+   useEffect(() => {
+      setIsLoggedIn(user_id && user_id > -1);
+   }, [user_id]);
 
    const {path, url} = useRouteMatch();
-   const isLoggedIn = (getToken() !== null);
+   const [isLoggedIn, setIsLoggedIn] = useState(user_id && user_id > -1);
+   const POST_DELETED = -404;
    let innerHTML;
 
    if (isLoading) {
@@ -102,15 +112,16 @@ function ImageDetails({ isLoading, error, imgDetails, match: { params: { id } },
    } else if (error) {
       const message = `Server Error: ${error.data.message} ${error.status}`;
       innerHTML = <p className="error">{message}</p>
-   } else if (imgDetails.id < 0){
+   } else if (imgDetails.id === POST_DELETED){
       history.goBack()
    } else {
       innerHTML = (
          <>
             <div className="img-wrapper">
-               <a href={imgDetails.image_url || "#"} target="_blank">
-                  <img src={imgDetails.image_url || "https://via.placeholder.com/1600x900/464655/d5cfe1"} alt="artwork" />
-               </a>
+               {imgDetails.image_url &&
+               <a href={imgDetails.image_url || "#"} target="_blank" rel="noopener noreferrer">
+                  <img src={imgDetails.image_url} alt="artwork" />
+               </a>}
             </div>
 
             <div className="card-wrapper">
@@ -142,4 +153,4 @@ function ImageDetails({ isLoading, error, imgDetails, match: { params: { id } },
    return <StyledArticle>{innerHTML}</StyledArticle>;
 }
 
-export default connect(state => ({...state.details}), {getImageDetails, deletePost})(ImageDetails);
+export default connect(state => ({...state.details, user_id: state.auth.user.id}), {getImageDetails, deletePost, clearDetails})(ImageDetails);

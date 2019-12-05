@@ -1,7 +1,33 @@
-import {axiosWithAuth as axios, setToken} from "../../utils/axiosWithAuth";
-import {LOGIN_START, LOGIN_SUCCESS, LOGIN_ERROR, SIGNUP_START, SIGNUP_SUCCESS, SIGNUP_FAIL} from "./authTypes";
+import {axiosWithAuth as axios, getUserData, setUserData} from "../../utils/axiosWithAuth";
+import {LOGIN_START, LOGIN_SUCCESS, LOGIN_END, LOGIN_ERROR, SIGNUP_START, SIGNUP_SUCCESS, SIGNUP_FAIL} from "./authTypes";
 
-export function login (credentials, history) {
+/* User Data
+{
+   token: "",
+   user: {
+      created_at: "2019-11-21T23:47:12.420Z"
+      email: "peterparker@mail.com"
+      fullName: "Peter Parker"
+      id: 1
+      updated_at: "2019-11-21T23:47:12.420Z"
+      username: "peter-parker
+   }
+}
+*/
+export function autoLogin () {
+   return dispatch => {
+      dispatch({type: LOGIN_START});
+
+      const data = getUserData();
+      if (data && data.user) {
+         dispatch({type: LOGIN_SUCCESS, payload: data.user})
+      } else {
+         dispatch({type: LOGIN_END});
+      }
+   };
+};
+
+export function login (credentials) {
    return dispatch => {
       dispatch({type: LOGIN_START});
    
@@ -9,8 +35,7 @@ export function login (credentials, history) {
          .post("/auth/login", credentials)
          .then(response => {
             dispatch({type: LOGIN_SUCCESS, payload: response.data.user});
-            setToken(response.data.token);
-            history.push("/");
+            setUserData(response.data);
          })
          .catch(error => {
             dispatch({type: LOGIN_ERROR, payload: error.response});

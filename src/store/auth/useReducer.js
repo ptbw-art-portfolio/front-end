@@ -1,4 +1,4 @@
-import { LOGIN_START, LOGIN_SUCCESS, LOGIN_ERROR, SIGNUP_START, SIGNUP_SUCCESS, SIGNUP_FAIL } from "./authTypes";
+import { LOGIN_START, LOGIN_SUCCESS, LOGIN_END, LOGIN_ERROR, SIGNUP_START, SIGNUP_SUCCESS, SIGNUP_FAIL } from "./authTypes";
 
 const NO_ERRORS = null;
 export const INITIAL_STATE = {
@@ -12,7 +12,6 @@ export const INITIAL_STATE = {
 };
 
 export default (state = INITIAL_STATE, action) => {
-   console.log(action.type)
    switch (action.type) {
       case LOGIN_START:
          return {
@@ -30,6 +29,15 @@ export default (state = INITIAL_STATE, action) => {
             isAuthorizing: false,
             error: NO_ERRORS
          };
+      case LOGIN_END:
+         return {
+            ...state,
+            user: {
+               ...state.user
+            },
+            isAuthorizing: false,
+            error: NO_ERRORS
+         };
       case LOGIN_ERROR:
          return {
             ...state,
@@ -40,7 +48,6 @@ export default (state = INITIAL_STATE, action) => {
             error: action.payload
          };
       case SIGNUP_START:
-         console.log(action.type)
          return {
             ...state, 
             user: {

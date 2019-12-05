@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import Login from './Login'
+import LoginForm from './LoginForm'
 import CreatePost from './CreatePost';
 
 const NavBarMenu = styled.nav`
@@ -26,17 +26,12 @@ const NavIcon = styled.i`
 function NavBar() {
   return (
     <NavBarMenu>
-      
       <Link to='/'>
         <NavIcon className="fas fa-home" title="Home"></NavIcon>
       </Link>
 
-    <CreatePost />
-
-      {/* <Link to='/sign-in'>
-      <NavIcon className="fas fa-sign-in-alt" title="Sign in/Register"></NavIcon>
-      </Link> */}
-      <Login />
+      <CreatePost />
+      <LoginForm />
     </NavBarMenu>
   );
 }
